@@ -1,16 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 
 /*Fonte importada localmente*/
-@font-face {
-  font-family: 'Inter';
-  src: url('./assets/fonts/InterVariable.woff2');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
+/*@font-face {*/
+/*  font-family: 'Inter';*/
+/*  src: url('./assets/fonts/InterVariable.woff2');*/
+/*  font-weight: 100 900;*/
+/*  font-style: normal;*/
+/*  font-display: swap;*/
+/*}
+Descontinuada devido a implementação do angular material*/
+
+@import "@fontsource/roboto/300.css";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/500.css";
+@import "material-symbols/outlined.css";
 
 html, body {
-  font-family: 'Inter', sans-serif;
   margin: 0;
 }
 
