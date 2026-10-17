@@ -1,16 +1,22 @@
 <nav class="sidebar">
+  <a class="sidebar-logo" routerLink="/">Logo do app</a>
 
-  <div class="sidebar-container">
-
-    <a class="sidebar-logo" href="/">Logo do app</a>
-
-    <ul class="sidebar-list">
-      <li class="sidebar-item"> <a>Home</a> </li>
-      <li class="sidebar-item"> <a>Comissões</a> </li>
-      <li class="sidebar-item"> <a>Clientes</a> </li>
-      <li class="sidebar-item"> <a>Sobre</a> </li>
-    </ul>
-
-  </div>
-
+  <mat-nav-list>
+    <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <mat-icon matListItemIcon>home</mat-icon>
+      <span matListItemTitle>Home</span>
+    </a>
+    <a mat-list-item routerLink="/comissoes" routerLinkActive="active">
+      <mat-icon matListItemIcon>brush</mat-icon>
+      <span matListItemTitle>Comissões</span>
+    </a>
+    <a mat-list-item routerLink="/clientes" routerLinkActive="active">
+      <mat-icon matListItemIcon>group</mat-icon>
+      <span matListItemTitle>Clientes</span>
+    </a>
+    <a mat-list-item routerLink="/sobre" routerLinkActive="active">
+      <mat-icon matListItemIcon>info</mat-icon>
+      <span matListItemTitle>Sobre</span>
+    </a>
+  </mat-nav-list>
 </nav>
