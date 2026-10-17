@@ -17,3 +17,26 @@
   text-decoration: none;
   color: white;
 }
+
+.sidebar-list {
+  list-style: none;
+  display: flex;
+  gap: 1.0rem;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-item a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s;
+}
+
+.sidebar-item a:hover {
+  color: #f0a500;
+}
+
+.active {
+  font-weight: bold;
+  border-bottom: 2px solid #f0a500;
+}

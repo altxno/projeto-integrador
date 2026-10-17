@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './home.css',
   templateUrl: './home.html',
 })
-export class Home {}
+export class Home {
+  titulo:string = 'Landing Page';
+}
