@@ -9,31 +9,36 @@ Este repositório reúne todos os projetos desenvolvidos ao longo do curso, orga
 
 ## Semestres
 
-### [Semestre I - Lógica de Programação](./Semestre_I)
+### [Semestre I - Lógica de Programação](./semestre-1)
 **Sistema de Gerenciamento de Comissões para Artistas Independentes**
 
-- CRUD completo (Create, Read, Update, Delete)
+- CRUD completo
 - Java Core e Fundamentos
 - Documentação
 
 ---
 
-### [Semestre II - Desenvolvimento Estruturado](./Semestre_II)
+### [Semestre II - Desenvolvimento Estruturado](./semestre-2)
+- CRUD completo
+- Angular v22
+- JSON Server
+- HTML & CSS
+- Javascript & Typescript
+- Node.js
+
+---
+
+### [Semestre III - Desenvolvimento WEB](./semestre-3)
 *Em breve...*
 
 ---
 
-### [Semestre III - Desenvolvimento WEB](./Semestre_III)
+### [Semestre IV - Desenvolvimento Mobile](./semestre-4)
 *Em breve...*
 
 ---
 
-### [Semestre IV - Desenvolvimento Mobile](./Semestre_IV)
-*Em breve...*
-
----
-
-### [Semestre V - Soluções para Organizações](./Semestre_V)
+### [Semestre V - Soluções para Organizações](./semestre-5)
 *Em breve...*
 
 ---
