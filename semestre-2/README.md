@@ -9,7 +9,7 @@ O sistema desenvolvido é um **CRUD em Angular**, contemplando as operações de
 
 - Altino Ávila
 - Guilherme Diniz
-- Pedro _______
+- Pedro Augusto
 
 ## Stacks Utilizadas
 
