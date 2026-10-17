@@ -14,6 +14,7 @@ O sistema desenvolvido é um **CRUD em Angular**, contemplando as operações de
 ## Stacks Utilizadas
 
 - **Angular v22** — principal framework web
+- **Angular Material** - biblioteca visual
 - **Node.js 24 + npm** — gerenciamento de pacotes & ambiente de execução
 - **JSON Server** — API Rest simulada para dados
 - **Webstorm & VS Code** — IDEs utilizadas
