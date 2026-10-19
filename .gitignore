@@ -27,7 +27,7 @@ pnpm-debug.log*
 # ====================================================================
 
 .angular/
-dist/
+# dist/
 coverage/
 *.tsbuildinfo
 
