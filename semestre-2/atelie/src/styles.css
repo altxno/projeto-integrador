@@ -15,11 +15,3 @@ Descontinuada devido a implementação do angular material*/
 @import "@fontsource/roboto/500.css";
 @import "material-symbols/outlined.css";
 
-html, body {
-  margin: 0;
-}
-
-body {
-  min-height: 100vh;
-  padding-left: 240px;
-}

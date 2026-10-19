@@ -1,5 +1,10 @@
 
-<app-home></app-home>
-<mat-slide-toggle>Toggle me!</mat-slide-toggle>
-<router-outlet />
-<app-footer></app-footer>
+<mat-sidenav-container>
+  <mat-sidenav opened mode="side">Start</mat-sidenav>
+  <mat-sidenav-content>
+    Main
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
