@@ -33,6 +33,9 @@ O sistema desenvolvido é um **CRUD em Angular**, contemplando as operações de
 | ------------------------- | -------------------------------------------------------- | -------- |
 | Estrutura MVC             | Model View Controller                                    | Pendente |
 | Tela de Login             | Acesso ao sistema                                        | Pendente |
+| Tela de Clientes          | Acesso a lista de clientes                               | Pendente |
+| Tela de Pedidos           | Acesso a lista de pedidos                                | Pendente |
+| Tela de Cadastro/Edição   | Acesso a tela de cadastro/edição                         | Pendente |
 | Painel inicial            | Resumo e acesso às funcionalidades                       | Pendente |
 | CRUD de clientes          | Cadastrar, listar, editar e excluir clientes             | Pendente |
 | CRUD de pedidos           | Cadastrar, listar, editar e excluir comissões            | Pendente |
