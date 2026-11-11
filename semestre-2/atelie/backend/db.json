@@ -1,0 +1,22 @@
+{
+    "clientes": [
+        {
+            "id": "1",
+            "nome": "Enzo",
+            "email": "enzo@gmail.com",
+            "telefone": "(11)97654-0075"
+        },
+        {
+            "id": "2",
+            "nome": "Valentina",
+            "email": "bruna@gmail.com",
+            "telefone": "(11)98765-9087"
+        },
+        {
+            "id": "3",
+            "nome": "Evandro",
+            "email": "teste@gmail.com",
+            "telefone": "(11)98976-7865"
+        }
+    ]
+}
