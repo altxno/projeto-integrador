@@ -1,0 +1,38 @@
+<form>
+  <label for="input-id">ID</label><br />
+  <input
+    class="input-simples"
+    id="input-id"
+    name="input-id"
+    placeholder="Digite o id"
+    type="text"
+    [(ngModel)]="cliente.id"
+  />
+  <label for="input-nome">Nome</label><br />
+  <input
+    class="input-simples"
+    id="input-nome"
+    name="input-nome"
+    placeholder="Digite o primeiro nome"
+    type="text"
+    [(ngModel)]="cliente.nome"
+  />
+  <label for="input-sobrenome">E-mail</label><br />
+  <input
+    class="input-simples"
+    id="input-email"
+    name="input-email"
+    placeholder="Email"
+    type="text"
+    [(ngModel)]="cliente.email"
+  />
+  <label for="input-telefone">Telefone</label><br />
+  <input
+    class="input-simples"
+    id="input-telefone"
+    name="input-telefone"
+    type="tel"
+    [(ngModel)]="cliente.telefone"
+  />
+  <button class="input-submeter" (click)="submeter()">Cadastrar</button>
+</form>

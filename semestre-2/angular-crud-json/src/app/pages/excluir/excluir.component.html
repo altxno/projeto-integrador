@@ -1,0 +1,23 @@
+<div class="excluir-container">
+    <form (ngSubmit)="excluirCliente()">
+      <label for="input-id">Informe o ID para excluir:</label>
+      <input
+        type="number"
+        id="input-id"
+        name="input-id"
+        [(ngModel)]="idExcluir"
+        class="input-id"
+        required
+      />
+      <button type="submit" class="btn-excluir">Excluir</button>
+    </form>
+  
+    <div *ngIf="mensagemSucesso" class="sucesso-mensagem">
+      {{ mensagemSucesso }}
+    </div>
+  
+    <div *ngIf="erroMensagem" class="erro-mensagem">
+      {{ erroMensagem }}
+    </div>
+  </div>
+  

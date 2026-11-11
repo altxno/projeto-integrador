@@ -1,0 +1,53 @@
+.consulta-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-id {
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  .btn-buscar {
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-buscar:hover {
+    background-color: #0056b3;
+  }
+  
+  .cliente-dados {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #e9ffe9;
+    border: 1px solid #90ee90;
+    border-radius: 6px;
+  }
+  
+  .erro-busca {
+    margin-top: 20px;
+    color: red;
+    font-weight: bold;
+  }
+  

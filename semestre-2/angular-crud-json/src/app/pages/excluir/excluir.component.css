@@ -1,0 +1,51 @@
+.excluir-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff8f8;
+    border: 1px solid #f5c2c2;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-id {
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  .btn-excluir {
+    padding: 12px;
+    background-color: #dc3545; /* vermelho */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-excluir:hover {
+    background-color: #c82333;
+  }
+  
+  .sucesso-mensagem {
+    margin-top: 20px;
+    color: green;
+    font-weight: bold;
+  }
+  
+  .erro-mensagem {
+    margin-top: 20px;
+    color: red;
+    font-weight: bold;
+  }
+  
