@@ -1,6 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // necessário para usar [(ngModel)]
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ClientesService } from '../../core/services/clientes.service';
 import { Cliente } from '../../core/types/types';
 
@@ -9,35 +18,76 @@ import { Cliente } from '../../core/types/types';
   standalone: true,
   templateUrl: './consultar.component.html',
   styleUrls: ['./consultar.component.css'],
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
+  ],
 })
 export class ConsultarComponent {
-  idBusca: number | null = null;  // ID digitado no input
-  clienteEncontrado: Cliente | null = null; // Cliente encontrado
-  erroBusca: string = ''; // Mensagem de erro
+  idBusca: string = '';
+  clienteEncontrado: Cliente | null = null;
+  buscado: boolean = false;
+  buscando: boolean = false;
+  erroBusca: string = '';
 
-  constructor(private clientesService: ClientesService) { }
+  constructor(
+    private clientesService: ClientesService,
+    private snackBar: MatSnackBar
+  ) { }
 
   buscarCliente(): void {
+    const id = this.idBusca.trim();
+    if (!id) {
+      this.snackBar.open('Informe um ID válido para pesquisar.', 'OK', { duration: 3000 });
+      return;
+    }
+
+    this.buscando = true;
+    this.buscado = false;
     this.erroBusca = '';
     this.clienteEncontrado = null;
 
-    if (this.idBusca != null) {
-      //Chama o serviço ClientesService, que faz um GET na API:GET http://localhost:3000/clientes/:id
-      this.clientesService.buscarPorId(this.idBusca).subscribe({
-        //verifica se o cliente foi retornado corretamente
-        next: (cliente) => {
-          //Se encontrar o cliente, salva em this.clienteEncontrado.
-          //Isso automaticamente mostra os dados no HTML (*ngIf="clienteEncontrado").
-          if (cliente) {
-            this.clienteEncontrado = cliente;
-          } else {
-            this.erroBusca = 'Cliente não encontrado.';
-          }
+    this.clientesService.buscarPorId(id).subscribe({
+      next: (cliente) => {
+        this.buscando = false;
+        this.buscado = true;
+        if (cliente && (cliente.id !== undefined || cliente.nome)) {
+          this.clienteEncontrado = cliente;
+        } else {
+          this.erroBusca = `Nenhum cliente encontrado com o ID "${id}".`;
+        }
+      },
+      error: () => {
+        this.buscando = false;
+        this.buscado = true;
+        this.erroBusca = `Cliente com ID "${id}" não foi localizado.`;
+      }
+    });
+  }
+
+  excluirCliente(): void {
+    if (!this.clienteEncontrado?.id) return;
+    const id = this.clienteEncontrado.id;
+
+    if (confirm(`Deseja realmente excluir o cliente "${this.clienteEncontrado.nome}" (ID ${id})?`)) {
+      this.clientesService.excluir(id).subscribe({
+        next: () => {
+          this.snackBar.open(`Cliente ID ${id} excluído com sucesso!`, 'OK', { duration: 3000 });
+          this.clienteEncontrado = null;
+          this.buscado = false;
+          this.idBusca = '';
         },
-        //Se o cliente não existir (for null ou undefined — dependendo da API), mostra a mensagem abaixo
         error: () => {
-          this.erroBusca = 'Erro ao buscar cliente.';
+          this.snackBar.open('Erro ao excluir cliente.', 'Fechar', { duration: 3000 });
         }
       });
     }

@@ -1,9 +1,27 @@
-<nav class="menu">
-  <ul>
-    <li><a routerLink="/cadastrar" routerLinkActive="active">Cadastrar</a></li>
-    <li><a routerLink="/consultar" routerLinkActive="active">Consultar</a></li>
-    <li><a routerLink="/excluir" routerLinkActive="active">Excluir</a></li>
-    <li><a routerLink="/listagem" routerLinkActive="active">Listar</a></li>
-  </ul>
-</nav>
+<mat-toolbar color="primary" class="header-toolbar">
+  <div class="logo" routerLink="/listagem">
+    <mat-icon class="logo-icon">manage_accounts</mat-icon>
+    <span class="app-title">CRUD Clientes</span>
+  </div>
 
+  <span class="toolbar-spacer"></span>
+
+  <nav class="nav-links">
+    <a mat-button routerLink="/listagem" routerLinkActive="active-link">
+      <mat-icon>format_list_bulleted</mat-icon>
+      <span>Listar</span>
+    </a>
+    <a mat-button routerLink="/cadastrar" routerLinkActive="active-link">
+      <mat-icon>person_add</mat-icon>
+      <span>Cadastrar</span>
+    </a>
+    <a mat-button routerLink="/consultar" routerLinkActive="active-link">
+      <mat-icon>search</mat-icon>
+      <span>Consultar</span>
+    </a>
+    <a mat-button routerLink="/excluir" routerLinkActive="active-link">
+      <mat-icon>delete_outline</mat-icon>
+      <span>Excluir</span>
+    </a>
+  </nav>
+</mat-toolbar>

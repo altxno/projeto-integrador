@@ -1,70 +1,105 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'; // <-- Importar aqui
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ClientesService } from '../../core/services/clientes.service';
-import { CommonModule } from '@angular/common'; // <-- (opcional, mas geralmente precisa)
 import { Cliente } from '../../core/types/types';
 
 @Component({
   selector: 'app-alterar',
-  standalone: true, // <-- importante em standalone
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './alterar.component.html',
-  styleUrls: ['./alterar.component.css'],
-  imports: [CommonModule, ReactiveFormsModule], // <-- Adicionar ReactiveFormsModule aqui
+  styleUrls: ['./alterar.component.css']
 })
 export class AlterarComponent implements OnInit {
   form!: FormGroup;
-  idCliente!: number;
+  idCliente!: string;
+  carregando: boolean = true;
+  salvando: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private clientesService: ClientesService
+    private clientesService: ClientesService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
-    this.idCliente = Number(this.route.snapshot.paramMap.get('id'));
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (!idParam) {
+      this.snackBar.open('ID do cliente não informado.', 'Fechar', { duration: 3000 });
+      this.router.navigate(['/listagem']);
+      return;
+    }
 
-    //Cria um objeto do tipo formulário com os campos vazios (nome, email e telefone)
+    this.idCliente = idParam;
+
     this.form = this.fb.group({
-      nome: [''],
-      email: [''],
-      telefone: ['']
+      nome: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      telefone: ['', [Validators.required]]
     });
 
-    //Chama o serviço que vai buscar os dados do cliente pelo ID na API (GET /clientes/:id).
-    this.clientesService.buscarPorId(this.idCliente).subscribe(cliente => {
-      //Se o cliente foi encontrado, atualiza os valores do formulário com os dados do cliente encontrado.
-      if (cliente) {
-        this.form.patchValue({
-          nome: cliente.nome,
-          email: cliente.email,
-          telefone: cliente.telefone
-        });
+    this.clientesService.buscarPorId(this.idCliente).subscribe({
+      next: (cliente) => {
+        if (cliente) {
+          this.form.patchValue({
+            nome: cliente.nome,
+            email: cliente.email,
+            telefone: cliente.telefone
+          });
+        }
+        this.carregando = false;
+      },
+      error: () => {
+        this.carregando = false;
+        this.snackBar.open('Erro ao carregar dados do cliente.', 'Fechar', { duration: 3500 });
       }
     });
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      const clienteAtualizado: Cliente = {
-        id: this.idCliente, //pega o ID obtido da URL e que está em this.idCliente
-        ...this.form.value //pega o conteúdos dos campos do form e carrega no objetoclienteAtualizado
-      };
-
-      /* vai gerar algo como mostrado abaixo e armazenar em clienteAtualizado
-      {
-        id: 5,     // Capturado da URL (não vem do formulário!)
-        nome: "João",
-        email: "joao@email.com",
-        telefone: "12345-6789"
-      }
-      */
-
-      this.clientesService.editar(clienteAtualizado).subscribe(() => {
-        this.router.navigate(['/listagem']);
-      });
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
     }
+
+    this.salvando = true;
+    const clienteAtualizado: Cliente = {
+      id: this.idCliente,
+      ...this.form.value
+    };
+
+    this.clientesService.editar(clienteAtualizado).subscribe({
+      next: () => {
+        this.salvando = false;
+        this.snackBar.open('Cliente atualizado com sucesso!', 'OK', { duration: 3000 });
+        this.router.navigate(['/listagem']);
+      },
+      error: () => {
+        this.salvando = false;
+        this.snackBar.open('Erro ao atualizar cliente.', 'Fechar', { duration: 3500 });
+      }
+    });
   }
 }

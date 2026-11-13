@@ -1,57 +1,46 @@
-/* Estilo geral do formulário */
-form {
-  max-width: 500px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.form-wrapper {
+  max-width: 600px;
+  margin: 20px auto;
 }
 
-/* Estilo dos rótulos */
-form label {
-  display: block;
-  margin-top: 15px;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #333;
+.form-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Estilo dos inputs */
-.input-simples {
+.card-header {
+  padding: 20px 24px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.header-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: #3f51b5;
+}
+
+.card-content {
+  padding: 28px 24px 20px;
+}
+
+.full-width {
   width: 100%;
-  padding: 10px 12px;
-  font-size: 16px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-sizing: border-box;
-  transition: border-color 0.3s;
+  margin-bottom: 12px;
 }
 
-/* Efeito ao focar no input */
-.input-simples:focus {
-  border-color: #007bff;
-  outline: none;
+mat-icon[matPrefix] {
+  margin-right: 8px;
+  color: #757575;
 }
 
-/* Estilo do botão de submit */
-.input-submeter {
-  width: 100%;
-  padding: 12px;
-  margin-top: 20px;
-  background-color: #28a745; /* verde sucesso */
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-/* Efeito ao passar o mouse sobre o botão */
-.input-submeter:hover {
-  background-color: #218838;
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
 }

@@ -2,9 +2,21 @@
   "clientes": [
     {
       "id": "1",
-      "nome": "asdas",
-      "email": "asdas",
-      "telefone": "asdas"
+      "nome": "Carlos Eduardo Pereira",
+      "email": "carlos.pereira@email.com",
+      "telefone": "(11) 98765-4321"
+    },
+    {
+      "id": "2",
+      "nome": "Mariana Santos Oliveira",
+      "email": "mariana.santos@email.com",
+      "telefone": "(19) 99876-1234"
+    },
+    {
+      "id": "3",
+      "nome": "Lucas Ferreira da Costa",
+      "email": "lucas.costa@email.com",
+      "telefone": "(21) 97654-8901"
     }
   ]
 }

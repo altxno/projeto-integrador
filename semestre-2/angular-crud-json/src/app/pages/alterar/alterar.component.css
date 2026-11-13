@@ -1,46 +1,55 @@
-/* Estilização básica para o formulário */
-form {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #fafafa;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Estilo dos rótulos */
-  form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  /* Estilo dos campos de input */
-  form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-    box-sizing: border-box;
-  }
-  
-  /* Estilo do botão */
-  form button {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff; /* azul principal */
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Efeito de hover no botão */
-  
+.form-wrapper {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.form-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+  padding: 20px 24px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.header-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: #3f51b5;
+}
+
+.card-content {
+  padding: 28px 24px 20px;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  gap: 12px;
+  color: #666;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+mat-icon[matPrefix] {
+  margin-right: 8px;
+  color: #757575;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}

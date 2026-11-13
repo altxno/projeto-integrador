@@ -1,51 +1,65 @@
-.excluir-container {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #fff8f8;
-    border: 1px solid #f5c2c2;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .input-id {
-    padding: 10px;
-    margin-top: 8px;
-    margin-bottom: 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-  }
-  
-  .btn-excluir {
-    padding: 12px;
-    background-color: #dc3545; /* vermelho */
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .btn-excluir:hover {
-    background-color: #c82333;
-  }
-  
-  .sucesso-mensagem {
-    margin-top: 20px;
-    color: green;
-    font-weight: bold;
-  }
-  
-  .erro-mensagem {
-    margin-top: 20px;
-    color: red;
-    font-weight: bold;
-  }
-  
+.delete-wrapper {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.delete-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+  padding: 20px 24px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.header-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: #f44336;
+}
+
+.card-content {
+  padding: 24px;
+}
+
+.warning-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  color: #c62828;
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.warning-icon {
+  color: #d32f2f;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+mat-icon[matPrefix] {
+  margin-right: 8px;
+  color: #757575;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
