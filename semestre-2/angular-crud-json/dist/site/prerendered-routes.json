@@ -1,0 +1,15 @@
+{
+  "routes": {
+    "/": {},
+    "/cadastrar": {},
+    "/clientes": {},
+    "/clientes/novo": {},
+    "/consultar": {},
+    "/excluir": {},
+    "/listagem": {},
+    "/login": {},
+    "/pedidos": {},
+    "/pedidos/novo": {},
+    "/registro": {}
+  }
+}
