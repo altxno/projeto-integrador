@@ -1,0 +1,74 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  color: var(--app-primary);
+}
+
+.artist-avatar {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 28px;
+  color: var(--app-primary);
+}
+
+.brand-name {
+  color: var(--app-ink);
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: 0.2px;
+}
+
+.nav-list {
+  padding: 10px 8px;
+}
+
+.nav-list a {
+  margin: 2px 0;
+}
+
+.nav-list a.active-nav {
+  background: var(--app-primary-soft);
+  color: var(--app-primary);
+  font-weight: 600;
+}
+
+.nav-list a.active-nav mat-icon {
+  color: var(--app-primary);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+}
+
+.logout-button {
+  width: 100%;
+  margin-top: 8px;
+  appearance: none;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #555b68;
+  text-align: left;
+}
+
+.logout-button:focus-visible {
+  outline: 2px solid var(--app-primary-soft);
+  outline-offset: -2px;
+}
+
+.logout-button mat-icon {
+  color: #68718b;
+}

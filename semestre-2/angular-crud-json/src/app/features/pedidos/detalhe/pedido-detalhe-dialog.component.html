@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Detalhes do pedido</h2>
+
+<mat-dialog-content>
+  <div class="details-grid">
+    <section class="detail-item detail-wide">
+      <span class="detail-label">Trabalho / Arte</span>
+      <span class="detail-value">{{ pedido.titulo }}</span>
+    </section>
+
+    <section class="detail-item detail-wide" *ngIf="pedido.descricao">
+      <span class="detail-label">Descrição</span>
+      <span class="detail-value detail-description">{{ pedido.descricao }}</span>
+    </section>
+
+    <section class="detail-item">
+      <span class="detail-label">Cliente</span>
+      <span class="detail-value">{{ pedido.clienteNome }}</span>
+    </section>
+
+    <section class="detail-item">
+      <span class="detail-label">Categoria</span>
+      <span class="detail-value">{{ pedido.tipoArte }}</span>
+    </section>
+
+    <section class="detail-item">
+      <span class="detail-label">Valor</span>
+      <span class="detail-value">{{ valorFormatado }}</span>
+    </section>
+
+    <section class="detail-item">
+      <span class="detail-label">Prazo</span>
+      <span class="detail-value">{{ pedido.dataEntrega | date:'dd/MM/yyyy':'UTC' }}</span>
+    </section>
+
+    <section class="detail-item detail-wide">
+      <span class="detail-label">Status</span>
+      <span class="detail-value">{{ pedido.status }}</span>
+    </section>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close color="primary">Fechar</button>
+</mat-dialog-actions>

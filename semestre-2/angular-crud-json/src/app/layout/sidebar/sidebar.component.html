@@ -1,0 +1,35 @@
+<div class="sidebar-header">
+  <div class="artist-avatar">
+    <mat-icon>brush</mat-icon>
+  </div>
+  <span class="brand-name">atelie</span>
+</div>
+
+<mat-divider />
+
+<mat-nav-list class="nav-list" aria-label="Navegação principal">
+  <a mat-list-item routerLink="/pedidos" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
+    <mat-icon matListItemIcon>palette</mat-icon>
+    <span matListItemTitle>Lista de pedidos</span>
+  </a>
+  <a mat-list-item routerLink="/pedidos/novo" routerLinkActive="active-nav">
+    <mat-icon matListItemIcon>add_task</mat-icon>
+    <span matListItemTitle>Cadastrar pedido</span>
+  </a>
+  <a mat-list-item routerLink="/clientes" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
+    <mat-icon matListItemIcon>people</mat-icon>
+    <span matListItemTitle>Lista de clientes</span>
+  </a>
+  <a mat-list-item routerLink="/clientes/novo" routerLinkActive="active-nav">
+    <mat-icon matListItemIcon>person_add</mat-icon>
+    <span matListItemTitle>Cadastrar cliente</span>
+  </a>
+</mat-nav-list>
+
+<div class="sidebar-footer">
+  <mat-divider />
+  <button mat-list-item type="button" class="logout-button" (click)="logoutRequested.emit()">
+    <mat-icon matListItemIcon>logout</mat-icon>
+    <span matListItemTitle>Sair do sistema</span>
+  </button>
+</div>

@@ -1,0 +1,13 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" [opened]="true" class="sidenav">
+    <app-sidebar (logoutRequested)="logout()" />
+  </mat-sidenav>
+
+  <mat-sidenav-content class="sidenav-content">
+    <app-header [breadcrumb]="breadcrumb" [usuario]="authService.usuarioLogado" />
+
+    <main class="page-container">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

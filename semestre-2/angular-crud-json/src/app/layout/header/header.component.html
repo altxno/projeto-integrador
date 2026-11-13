@@ -1,0 +1,15 @@
+<header class="top-toolbar">
+  <div class="breadcrumb" aria-label="Localização atual">
+    <span>{{ breadcrumb.section }}</span>
+    <span class="breadcrumb-separator">/</span>
+    <strong>{{ breadcrumb.page }}</strong>
+  </div>
+
+  <div class="header-user" aria-label="Usuário conectado">
+    <div class="user-details">
+      <span class="user-name">{{ usuario?.nome || 'Usuário' }}</span>
+      <span class="user-email">{{ usuario?.email }}</span>
+    </div>
+    <span class="user-avatar"><mat-icon>account_circle</mat-icon></span>
+  </div>
+</header>
