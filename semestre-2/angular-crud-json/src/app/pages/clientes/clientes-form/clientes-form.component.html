@@ -1,0 +1,88 @@
+<div class="form-wrapper">
+  <mat-card class="form-card mat-elevation-z3">
+    <mat-card-header class="card-header">
+      <div mat-card-avatar>
+        <mat-icon class="header-icon">{{ modoEdicao ? 'edit' : 'person_add' }}</mat-icon>
+      </div>
+      <mat-card-title>{{ modoEdicao ? 'Editar Cliente' : 'Novo Cliente' }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ modoEdicao ? 'Atualize as informações do cliente #' + idCliente : 'Preencha os campos para cadastrar um novo cliente' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="card-content">
+      <div *ngIf="carregando" class="loading-state">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Carregando dados...</p>
+      </div>
+
+      <form *ngIf="!carregando" [formGroup]="form" (ngSubmit)="salvar()">
+        <!-- Nome -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nome Completo</mat-label>
+          <input matInput formControlName="nome" placeholder="Ex: Mariana Santos Oliveira" />
+          <mat-icon matPrefix>badge</mat-icon>
+          <mat-error *ngIf="form.get('nome')?.hasError('required')">
+            O nome é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="form.get('nome')?.hasError('minlength')">
+            O nome deve ter no mínimo 3 caracteres.
+          </mat-error>
+          <mat-error *ngIf="form.get('nome')?.hasError('maxlength')">
+            O nome pode ter no máximo 100 caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- CPF com Validação Oficial -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>CPF (apenas números ou formatado)</mat-label>
+          <input matInput formControlName="cpf" placeholder="Ex: 529.982.247-25" />
+          <mat-icon matPrefix>fingerprint</mat-icon>
+          <mat-hint>O CPF será validado de acordo com o algoritmo dos dígitos verificadores.</mat-hint>
+          <mat-error *ngIf="form.get('cpf')?.hasError('required')">
+            O CPF é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="form.get('cpf')?.hasError('cpfInvalido')">
+            CPF inválido! Verifique os dígitos informados.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- E-mail -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="cliente@email.com" />
+          <mat-icon matPrefix>email</mat-icon>
+          <mat-error *ngIf="form.get('email')?.hasError('required')">
+            O e-mail é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">
+            Informe um endereço de e-mail válido (ex: usuario&#64;dominio.com).
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Telefone -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Telefone / WhatsApp</mat-label>
+          <input matInput formControlName="telefone" placeholder="Ex: (11) 98765-4321" />
+          <mat-icon matPrefix>phone</mat-icon>
+          <mat-error *ngIf="form.get('telefone')?.hasError('required')">
+            O telefone é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="form.get('telefone')?.hasError('minlength')">
+            O telefone deve conter ao menos 8 caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-button type="button" routerLink="/clientes">
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="salvando">
+            <mat-icon>save</mat-icon>
+            {{ modoEdicao ? 'Salvar Alterações' : 'Cadastrar Cliente' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

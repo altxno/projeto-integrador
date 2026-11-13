@@ -1,0 +1,112 @@
+<div class="auth-wrapper">
+  <mat-card class="auth-card mat-elevation-z6">
+    <mat-card-header class="auth-header">
+      <div class="auth-icon-wrapper">
+        <mat-icon class="auth-icon">person_add</mat-icon>
+      </div>
+      <mat-card-title class="auth-title">Novo Usuário</mat-card-title>
+      <mat-card-subtitle>Crie sua conta para gerenciar suas comissões</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="auth-content">
+      <form [formGroup]="form" (ngSubmit)="registrar()">
+        <!-- Nome Completo -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nome Completo</mat-label>
+          <input matInput formControlName="nome" placeholder="Ex: Lucas Ferreira" />
+          <mat-icon matPrefix>badge</mat-icon>
+          <mat-error *ngIf="form.get('nome')?.hasError('required')">
+            O nome é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="form.get('nome')?.hasError('minlength')">
+            O nome deve ter no mínimo 3 caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- E-mail -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="seu@email.com" />
+          <mat-icon matPrefix>email</mat-icon>
+          <mat-error *ngIf="form.get('email')?.hasError('required')">
+            O e-mail é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">
+            Informe um e-mail válido.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Senha -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            [type]="esconderSenha ? 'password' : 'text'"
+            formControlName="senha"
+            placeholder="Mínimo 6 caracteres"
+          />
+          <mat-icon matPrefix>lock</mat-icon>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="esconderSenha = !esconderSenha"
+          >
+            <mat-icon>{{ esconderSenha ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('senha')?.hasError('required')">
+            A senha é obrigatória.
+          </mat-error>
+          <mat-error *ngIf="form.get('senha')?.hasError('minlength')">
+            A senha deve conter pelo menos 6 caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Confirmar Senha -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirmar Senha</mat-label>
+          <input
+            matInput
+            [type]="esconderConfirmacao ? 'password' : 'text'"
+            formControlName="confirmarSenha"
+            placeholder="Repita a senha"
+          />
+          <mat-icon matPrefix>lock_reset</mat-icon>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="esconderConfirmacao = !esconderConfirmacao"
+          >
+            <mat-icon>{{ esconderConfirmacao ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('confirmarSenha')?.hasError('required')">
+            Confirme sua senha.
+          </mat-error>
+          <mat-error *ngIf="form.hasError('senhasDivergentes') && form.get('confirmarSenha')?.touched">
+            As senhas não coincidem.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Botão Registrar -->
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="btn-submit"
+          [disabled]="carregando"
+        >
+          <mat-spinner *ngIf="carregando" diameter="20" class="btn-spinner"></mat-spinner>
+          <span *ngIf="!carregando">Cadastrar Usuário</span>
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer class="auth-footer">
+      <p>
+        Já possui uma conta?
+        <a routerLink="/login">Ir para o Login</a>
+      </p>
+    </mat-card-footer>
+  </mat-card>
+</div>

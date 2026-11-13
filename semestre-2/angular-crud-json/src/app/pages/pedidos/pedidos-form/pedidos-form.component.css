@@ -1,0 +1,72 @@
+.form-wrapper {
+  max-width: 760px;
+  margin: 16px auto;
+}
+
+.form-card {
+  border-radius: 14px;
+  overflow: hidden;
+  background: white;
+}
+
+.card-header {
+  padding: 24px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.header-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: #3f51b5;
+}
+
+.card-content {
+  padding: 28px 24px 20px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.form-half {
+  flex: 1;
+  min-width: 240px;
+}
+
+.form-third {
+  flex: 1;
+  min-width: 180px;
+}
+
+mat-icon[matPrefix] {
+  margin-right: 8px;
+  color: #757575;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  gap: 12px;
+  color: #666;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}

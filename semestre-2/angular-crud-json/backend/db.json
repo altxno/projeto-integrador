@@ -1,22 +1,68 @@
 {
+  "usuarios": [
+    {
+      "id": "1",
+      "nome": "Artista Principal",
+      "email": "artista@atelie.com",
+      "senha": "123456"
+    }
+  ],
   "clientes": [
     {
       "id": "1",
       "nome": "Carlos Eduardo Pereira",
+      "cpf": "52998224725",
       "email": "carlos.pereira@email.com",
       "telefone": "(11) 98765-4321"
     },
     {
       "id": "2",
       "nome": "Mariana Santos Oliveira",
+      "cpf": "11144477735",
       "email": "mariana.santos@email.com",
       "telefone": "(19) 99876-1234"
     },
     {
       "id": "3",
       "nome": "Lucas Ferreira da Costa",
+      "cpf": "89542136005",
       "email": "lucas.costa@email.com",
       "telefone": "(21) 97654-8901"
+    }
+  ],
+  "pedidos": [
+    {
+      "id": "1",
+      "titulo": "Retrato Fantasia - Guerreira Élfica",
+      "descricao": "Pintura digital de busto com iluminação mágica e detalhes na armadura.",
+      "clienteId": "1",
+      "clienteNome": "Carlos Eduardo Pereira",
+      "tipoArte": "Ilustração Digital",
+      "valor": 350,
+      "dataEntrega": "2026-11-25",
+      "status": "Em Andamento"
+    },
+    {
+      "id": "2",
+      "titulo": "Design de Personagem para Jogo Indie",
+      "descricao": "Concept art de personagem com 3 poses e paleta de cores definida.",
+      "clienteId": "2",
+      "clienteNome": "Mariana Santos Oliveira",
+      "tipoArte": "Concept Art",
+      "valor": 600,
+      "dataEntrega": "2026-11-30",
+      "status": "Pendente"
+    },
+    {
+      "id": "3",
+      "titulo": "Aquarela Botânica - Buquê de Orquídeas",
+      "descricao": "Pintura tradicional em papel 300g, tamanho A3 com envio postal.",
+      "clienteId": "3",
+      "clienteNome": "Lucas Ferreira da Costa",
+      "tipoArte": "Pintura Tradicional",
+      "valor": 450,
+      "dataEntrega": "2026-11-20",
+      "status": "Concluído"
     }
   ]
 }

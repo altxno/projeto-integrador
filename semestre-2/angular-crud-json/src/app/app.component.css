@@ -1,0 +1,129 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 260px;
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+}
+
+.sidebar-header {
+  padding: 24px 16px;
+  background: linear-gradient(135deg, #283593 0%, #3f51b5 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.artist-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artist-avatar mat-icon {
+  color: white;
+}
+
+.artist-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.artist-name {
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.artist-email {
+  font-size: 12px;
+  opacity: 0.85;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.nav-list {
+  padding-top: 12px;
+}
+
+.nav-section-title {
+  padding: 12px 16px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #888;
+  letter-spacing: 0.8px;
+}
+
+.nav-list a.active-nav {
+  background-color: #e8eaf6;
+  color: #3f51b5;
+  font-weight: 600;
+}
+
+.nav-list a.active-nav mat-icon {
+  color: #3f51b5;
+}
+
+.nav-logout {
+  cursor: pointer;
+  color: #d32f2f;
+}
+
+.my-3 {
+  margin: 12px 0;
+}
+
+.top-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0 16px;
+}
+
+.brand-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.brand-icon {
+  font-size: 24px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.user-greeting {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.page-container {
+  padding: 24px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.auth-page-container {
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}

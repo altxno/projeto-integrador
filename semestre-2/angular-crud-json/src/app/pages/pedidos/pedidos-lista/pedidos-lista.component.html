@@ -1,0 +1,155 @@
+<div class="header-actions">
+  <div>
+    <h2>Painel de Comissões & Pedidos</h2>
+    <p class="subtitle">Acompanhe todos os seus trabalhos artísticos, prazos e faturamento</p>
+  </div>
+
+  <button mat-raised-button color="primary" routerLink="/pedidos/novo">
+    <mat-icon>add_task</mat-icon>
+    Nova Comissão
+  </button>
+</div>
+
+<div class="metrics-grid">
+  <mat-card class="metric-card metric-total mat-elevation-z2">
+    <div class="metric-icon"><mat-icon>palette</mat-icon></div>
+    <div class="metric-data">
+      <span class="metric-number">{{ totalPedidos }}</span>
+      <span class="metric-label">Total de Pedidos</span>
+    </div>
+  </mat-card>
+
+  <mat-card class="metric-card metric-pendente mat-elevation-z2">
+    <div class="metric-icon"><mat-icon>hourglass_empty</mat-icon></div>
+    <div class="metric-data">
+      <span class="metric-number">{{ totalPendentes }}</span>
+      <span class="metric-label">Pendentes</span>
+    </div>
+  </mat-card>
+
+  <mat-card class="metric-card metric-andamento mat-elevation-z2">
+    <div class="metric-icon"><mat-icon>brush</mat-icon></div>
+    <div class="metric-data">
+      <span class="metric-number">{{ totalEmAndamento }}</span>
+      <span class="metric-label">Em Produção</span>
+    </div>
+  </mat-card>
+
+  <mat-card class="metric-card metric-concluido mat-elevation-z2">
+    <div class="metric-icon"><mat-icon>check_circle</mat-icon></div>
+    <div class="metric-data">
+      <span class="metric-number">{{ totalConcluidos }}</span>
+      <span class="metric-label">Entregues</span>
+    </div>
+  </mat-card>
+
+  <mat-card class="metric-card metric-financeiro mat-elevation-z2">
+    <div class="metric-icon"><mat-icon>payments</mat-icon></div>
+    <div class="metric-data">
+      <span class="metric-number">R$ {{ faturamentoTotal | number:'1.2-2' }}</span>
+      <span class="metric-label">Faturamento Total</span>
+    </div>
+  </mat-card>
+</div>
+
+<mat-card class="table-card mat-elevation-z2">
+  <div class="card-toolbar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar por arte, cliente ou categoria</mat-label>
+      <input matInput [(ngModel)]="filtroTexto" (input)="aplicarFiltros()" placeholder="Digite para filtrar..." />
+      <mat-icon matPrefix>search</mat-icon>
+      <button mat-icon-button matSuffix *ngIf="filtroTexto" (click)="filtroTexto=''; aplicarFiltros()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="status-select">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="filtroStatus" (selectionChange)="aplicarFiltros()">
+        <mat-option value="TODOS">Todos os Status</mat-option>
+        <mat-option value="Pendente">Pendente</mat-option>
+        <mat-option value="Em Andamento">Em Andamento</mat-option>
+        <mat-option value="Concluído">Concluído</mat-option>
+        <mat-option value="Cancelado">Cancelado</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="carregando" class="loading-state">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Carregando comissões...</p>
+  </div>
+
+  <div *ngIf="!carregando && pedidosFiltrados.length > 0" class="table-responsive">
+    <table mat-table [dataSource]="pedidosFiltrados">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let p"> <strong>#{{ p.id }}</strong> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="titulo">
+        <th mat-header-cell *matHeaderCellDef> Trabalho / Arte </th>
+        <td mat-cell *matCellDef="let p">
+          <div class="art-title">{{ p.titulo }}</div>
+          <small class="art-desc">{{ p.descricao }}</small>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cliente">
+        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+        <td mat-cell *matCellDef="let p"> {{ p.clienteNome }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="tipoArte">
+        <th mat-header-cell *matHeaderCellDef> Categoria </th>
+        <td mat-cell *matCellDef="let p">
+          <span class="badge-category">{{ p.tipoArte }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="valor">
+        <th mat-header-cell *matHeaderCellDef> Valor </th>
+        <td mat-cell *matCellDef="let p"> <strong>R$ {{ p.valor | number:'1.2-2' }}</strong> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataEntrega">
+        <th mat-header-cell *matHeaderCellDef> Prazo </th>
+        <td mat-cell *matCellDef="let p"> {{ p.dataEntrega }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let p">
+          <span class="status-badge" [ngClass]="getStatusClass(p.status)">
+            {{ p.status }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef class="actions-col"> Ações </th>
+        <td mat-cell *matCellDef="let p" class="actions-col">
+          <button mat-icon-button color="primary" [routerLink]="['/pedidos/editar', p.id]" matTooltip="Editar Comissão">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="excluir(p.id, p.titulo)" matTooltip="Excluir Comissão">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+      <tr mat-row *matRowDef="let row; columns: colunas;"></tr>
+    </table>
+  </div>
+
+  <div *ngIf="!carregando && pedidosFiltrados.length === 0" class="empty-state">
+    <mat-icon class="empty-icon">palette</mat-icon>
+    <h3>Nenhuma comissão encontrada</h3>
+    <p *ngIf="filtroTexto || filtroStatus !== 'TODOS'">Nenhum trabalho encontrado para os filtros selecionados.</p>
+    <p *ngIf="!filtroTexto && filtroStatus === 'TODOS'">Você ainda não registrou nenhum pedido ou comissão de arte.</p>
+    <button mat-flat-button color="primary" routerLink="/pedidos/novo" *ngIf="!filtroTexto && filtroStatus === 'TODOS'">
+      <mat-icon>add_task</mat-icon> Criar Primeira Comissão
+    </button>
+  </div>
+</mat-card>

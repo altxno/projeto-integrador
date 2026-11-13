@@ -1,0 +1,85 @@
+<div class="auth-wrapper">
+  <mat-card class="auth-card mat-elevation-z6">
+    <mat-card-header class="auth-header">
+      <div class="auth-icon-wrapper">
+        <mat-icon class="auth-icon">palette</mat-icon>
+      </div>
+      <mat-card-title class="auth-title">Ateliê de Comissões</mat-card-title>
+      <mat-card-subtitle>Acesse seu painel de artista</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="auth-content">
+      <form [formGroup]="form" (ngSubmit)="entrar()">
+        <!-- Email -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="seu@email.com" />
+          <mat-icon matPrefix>email</mat-icon>
+          <mat-error *ngIf="form.get('email')?.hasError('required')">
+            O e-mail é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">
+            Informe um formato de e-mail válido.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Senha -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            [type]="esconderSenha ? 'password' : 'text'"
+            formControlName="senha"
+            placeholder="Sua senha"
+          />
+          <mat-icon matPrefix>lock</mat-icon>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="esconderSenha = !esconderSenha"
+            [attr.aria-label]="'Ocultar senha'"
+          >
+            <mat-icon>{{ esconderSenha ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('senha')?.hasError('required')">
+            A senha é obrigatória.
+          </mat-error>
+          <mat-error *ngIf="form.get('senha')?.hasError('minlength')">
+            A senha deve conter no mínimo 6 caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Botão Entrar -->
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="btn-submit"
+          [disabled]="carregando"
+        >
+          <mat-spinner *ngIf="carregando" diameter="20" class="btn-spinner"></mat-spinner>
+          <span *ngIf="!carregando">Entrar no Sistema</span>
+        </button>
+
+        <!-- Atalho Demo -->
+        <button
+          mat-stroked-button
+          type="button"
+          class="btn-demo"
+          (click)="preencherDemo()"
+        >
+          <mat-icon>flash_on</mat-icon>
+          Preencher Conta Demo
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer class="auth-footer">
+      <p>
+        Não possui uma conta?
+        <a routerLink="/registro">Criar novo usuário</a>
+      </p>
+    </mat-card-footer>
+  </mat-card>
+</div>
