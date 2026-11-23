@@ -20,7 +20,7 @@
         <!-- Nome -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nome Completo</mat-label>
-          <input matInput minlength="3" maxlength="100" formControlName="nome" placeholder="Ex: Mariana Santos Oliveira" />
+          <input matInput minlength="3" maxlength="60" formControlName="nome" placeholder="Ex: Mariana Santos Oliveira" />
           <mat-icon matPrefix>badge</mat-icon>
           <mat-error *ngIf="form.get('nome')?.hasError('required')">
             O nome é obrigatório.
@@ -29,7 +29,10 @@
             O nome deve ter no mínimo 3 caracteres.
           </mat-error>
           <mat-error *ngIf="form.get('nome')?.hasError('maxlength')">
-            O nome pode ter no máximo 100 caracteres.
+            O nome pode ter no máximo 60 caracteres.
+          </mat-error>
+          <mat-error *ngIf="form.get('nome')?.hasError('pattern')">
+            Use apenas letras, espaços, hífen, apóstrofo ou ponto.
           </mat-error>
         </mat-form-field>
 

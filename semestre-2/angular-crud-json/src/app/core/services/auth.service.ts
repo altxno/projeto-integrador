@@ -53,29 +53,37 @@ export class AuthService {
   }
 
   registrar(novoUsuario: Usuario): Observable<Usuario> {
-    return this.http.post<Usuario>(this.API, novoUsuario).pipe(
+    const usuario = { ...novoUsuario, email: novoUsuario.email.trim() };
+
+    return this.validarEmailDisponivel(usuario.email).pipe(
+      switchMap(() => this.http.post<Usuario>(this.API, usuario)),
       tap(usuario => this.atualizarSessao(usuario))
     );
   }
 
   atualizar(usuarioAtualizado: Usuario): Observable<Usuario> {
-    const email = usuarioAtualizado.email.trim().toLowerCase();
+    const usuario = { ...usuarioAtualizado, email: usuarioAtualizado.email.trim() };
+
+    return this.validarEmailDisponivel(usuario.email, usuario.id).pipe(
+      switchMap(() => this.http.put<Usuario>(`${this.API}/${usuario.id}`, usuario)),
+      tap(usuario => this.atualizarSessao(usuario))
+    );
+  }
+
+  private validarEmailDisponivel(email: string, ignorarId?: string | number): Observable<void> {
+    const emailNormalizado = email.trim().toLowerCase();
 
     return this.http.get<Usuario[]>(this.API).pipe(
       map(usuarios => {
         const emailEmUso = usuarios.some(usuario =>
-          String(usuario.id) !== String(usuarioAtualizado.id) &&
-          usuario.email.trim().toLowerCase() === email
+          (ignorarId == null || String(usuario.id) !== String(ignorarId)) &&
+          usuario.email.trim().toLowerCase() === emailNormalizado
         );
 
         if (emailEmUso) {
           throw new Error('EMAIL_DUPLICADO');
         }
-
-        return { ...usuarioAtualizado, email: usuarioAtualizado.email.trim() };
-      }),
-      switchMap(usuario => this.http.put<Usuario>(`${this.API}/${usuario.id}`, usuario)),
-      tap(usuario => this.atualizarSessao(usuario))
+      })
     );
   }
 

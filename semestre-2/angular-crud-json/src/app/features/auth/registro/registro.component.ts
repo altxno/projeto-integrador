@@ -73,8 +73,16 @@ export class RegistroComponent {
         this.snackBar.open('Usuário criado com sucesso! Acesso liberado.', 'OK', { duration: 3000 });
         this.router.navigate(['/']);
       },
-      error: () => {
+      error: (erro: Error) => {
         this.carregando = false;
+        const controleEmail = this.form.get('email');
+
+        if (erro.message === 'EMAIL_DUPLICADO' && controleEmail) {
+          controleEmail.setErrors({ ...(controleEmail.errors ?? {}), emailEmUso: true });
+          controleEmail.markAsTouched();
+          return;
+        }
+
         this.snackBar.open('Erro ao criar usuário. Tente novamente.', 'Fechar', { duration: 3500 });
       }
     });

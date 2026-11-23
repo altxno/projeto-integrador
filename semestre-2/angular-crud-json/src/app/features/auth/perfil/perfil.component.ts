@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -41,13 +41,7 @@ function validarConfirmacaoSenha(control: AbstractControl): ValidationErrors | n
 })
 export class PerfilComponent {
   salvando = false;
-
-  readonly form = this.fb.group({
-    nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-    email: ['', [Validators.required, Validators.minLength(5), Validators.email, Validators.maxLength(254)]],
-    novaSenha: ['', [Validators.minLength(6), Validators.maxLength(128)]],
-    confirmarSenha: ['', [Validators.maxLength(128)]]
-  }, { validators: validarConfirmacaoSenha });
+  readonly form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -55,6 +49,13 @@ export class PerfilComponent {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
+    this.form = this.fb.group({
+      nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      email: ['', [Validators.required, Validators.minLength(5), Validators.email, Validators.maxLength(254)]],
+      novaSenha: ['', [Validators.minLength(6), Validators.maxLength(128)]],
+      confirmarSenha: ['', [Validators.maxLength(128)]]
+    }, { validators: validarConfirmacaoSenha });
+
     const usuario = this.authService.usuarioLogado;
     if (!usuario) {
       this.router.navigate(['/login']);
@@ -65,7 +66,7 @@ export class PerfilComponent {
   }
 
   salvar(): void {
-    if (this.form.invalid) {
+    if (!this.validarLimitesCampos() || this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
@@ -104,5 +105,38 @@ export class PerfilComponent {
         this.snackBar.open('Não foi possível atualizar o perfil.', 'Fechar', { duration: 3500 });
       }
     });
+  }
+
+  private validarLimitesCampos(): boolean {
+    const limites: Record<string, { min: number; max: number; opcional?: boolean; apararEspacos?: boolean }> = {
+      nome: { min: 3, max: 100, apararEspacos: true },
+      email: { min: 5, max: 254, apararEspacos: true },
+      novaSenha: { min: 6, max: 128, opcional: true },
+      confirmarSenha: { min: 6, max: 128, opcional: true }
+    };
+    let valido = true;
+
+    for (const [campo, limite] of Object.entries(limites)) {
+      const controle = this.form.get(campo);
+      const valor = String(controle?.value ?? '');
+      if (limite.opcional && !valor) continue;
+
+      const tamanho = limite.apararEspacos ? valor.trim().length : valor.length;
+      const erros: ValidationErrors = { ...(controle?.errors ?? {}) };
+
+      if (tamanho < limite.min) {
+        erros['minlength'] = { requiredLength: limite.min, actualLength: tamanho };
+        controle?.setErrors(erros);
+        controle?.markAsTouched();
+        valido = false;
+      } else if (tamanho > limite.max) {
+        erros['maxlength'] = { requiredLength: limite.max, actualLength: tamanho };
+        controle?.setErrors(erros);
+        controle?.markAsTouched();
+        valido = false;
+      }
+    }
+
+    return valido;
   }
 }

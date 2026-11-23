@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -50,7 +50,12 @@ export class ClientesFormComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.form = this.fb.group({
-      nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      nome: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(60),
+        Validators.pattern(/^[\p{L}\p{M}][\p{L}\p{M} .’'-]*$/u)
+      ]],
       cpf: ['', [Validators.required, Validators.maxLength(14), validarCpf]],
       email: ['', [Validators.required, Validators.minLength(5), Validators.email, Validators.maxLength(254)]],
       telefone: ['', [Validators.required, Validators.maxLength(20), validarTelefone]]
@@ -95,7 +100,7 @@ export class ClientesFormComponent implements OnInit {
   }
 
   salvar(): void {
-    if (this.form.invalid) {
+    if (!this.validarLimitesCampos() || this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
@@ -107,10 +112,9 @@ export class ClientesFormComponent implements OnInit {
     }
 
     this.salvando = true;
-    const cpf = String(this.form.get('cpf')?.value ?? '').replace(/\D/g, '');
-
     this.service.listar(usuarioId).subscribe({
       next: (clientes) => {
+        const cpf = String(this.form.get('cpf')?.value ?? '').replace(/\D/g, '');
         const cpfDuplicado = clientes.some(cliente =>
           String(cliente.cpf).replace(/\D/g, '') === cpf &&
           String(cliente.id) !== String(this.idCliente)
@@ -125,6 +129,12 @@ export class ClientesFormComponent implements OnInit {
           return;
         }
 
+        if (!this.validarLimitesCampos() || this.form.invalid) {
+          this.form.markAllAsTouched();
+          this.salvando = false;
+          return;
+        }
+
         this.salvarCliente(usuarioId);
       },
       error: () => {
@@ -132,6 +142,37 @@ export class ClientesFormComponent implements OnInit {
         this.snackBar.open('Não foi possível verificar se o CPF já está cadastrado.', 'Fechar', { duration: 3500 });
       }
     });
+  }
+
+  private validarLimitesCampos(): boolean {
+    const limites: Record<string, { min: number; max: number; apararEspacos?: boolean }> = {
+      nome: { min: 3, max: 60, apararEspacos: true },
+      cpf: { min: 0, max: 14 },
+      email: { min: 5, max: 254, apararEspacos: true },
+      telefone: { min: 0, max: 20, apararEspacos: true }
+    };
+    let valido = true;
+
+    for (const [campo, limite] of Object.entries(limites)) {
+      const controle = this.form.get(campo);
+      const valor = String(controle?.value ?? '');
+      const tamanho = limite.apararEspacos ? valor.trim().length : valor.length;
+      const erros: ValidationErrors = { ...(controle?.errors ?? {}) };
+
+      if (limite.min > 0 && tamanho < limite.min) {
+        erros['minlength'] = { requiredLength: limite.min, actualLength: tamanho };
+        controle?.setErrors(erros);
+        controle?.markAsTouched();
+        valido = false;
+      } else if (tamanho > limite.max) {
+        erros['maxlength'] = { requiredLength: limite.max, actualLength: tamanho };
+        controle?.setErrors(erros);
+        controle?.markAsTouched();
+        valido = false;
+      }
+    }
+
+    return valido;
   }
 
   private salvarCliente(usuarioId: string | number): void {

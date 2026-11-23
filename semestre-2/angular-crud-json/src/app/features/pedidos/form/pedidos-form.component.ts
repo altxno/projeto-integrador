@@ -172,7 +172,7 @@ export class PedidosFormComponent implements OnInit {
   }
 
   salvar(): void {
-    if (this.form.invalid) {
+    if (!this.validarLimitesCampos() || this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
@@ -223,5 +223,45 @@ export class PedidosFormComponent implements OnInit {
         }
       });
     }
+  }
+
+  private validarLimitesCampos(): boolean {
+    const limites: Record<string, { min: number; max: number }> = {
+      titulo: { min: 3, max: 100 },
+      descricao: { min: 5, max: 500 }
+    };
+    let valido = true;
+
+    for (const [campo, limite] of Object.entries(limites)) {
+      const controle = this.form.get(campo);
+      const tamanho = String(controle?.value ?? '').length;
+      const erros: ValidationErrors = { ...(controle?.errors ?? {}) };
+
+      if (tamanho < limite.min) {
+        erros['minlength'] = { requiredLength: limite.min, actualLength: tamanho };
+        controle?.setErrors(erros);
+        controle?.markAsTouched();
+        valido = false;
+      } else if (tamanho > limite.max) {
+        erros['maxlength'] = { requiredLength: limite.max, actualLength: tamanho };
+        controle?.setErrors(erros);
+        controle?.markAsTouched();
+        valido = false;
+      }
+    }
+
+    const controleValor = this.form.get('valor');
+    const valor = Number(controleValor?.value);
+    if (!Number.isFinite(valor) || valor < 1) {
+      controleValor?.setErrors({ ...(controleValor.errors ?? {}), min: { min: 1, actual: valor } });
+      controleValor?.markAsTouched();
+      valido = false;
+    } else if (valor > 999999999.99) {
+      controleValor?.setErrors({ ...(controleValor.errors ?? {}), max: { max: 999999999.99, actual: valor } });
+      controleValor?.markAsTouched();
+      valido = false;
+    }
+
+    return valido;
   }
 }

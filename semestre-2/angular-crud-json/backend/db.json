@@ -14,7 +14,7 @@
     },
     {
       "id": "0fb6",
-      "nome": "altno",
+      "nome": "altno hjdssssssssssssss",
       "email": "manow.lucky@gmail.com",
       "senha": "123456"
     }
@@ -75,6 +75,14 @@
       "email": "gvsdf@gm.com",
       "telefone": "11967066829()(fdsf",
       "usuarioId": "1"
+    },
+    {
+      "id": "6a08",
+      "nome": "skdjhdkjsdkfhjdskhjdksjhfkjsdflkhjdskjfsdlkjfkjsdhfkljsdkgfg",
+      "cpf": "22950136826",
+      "email": "manow.lucky@gmail.com",
+      "telefone": "11967066829",
+      "usuarioId": "0fb6"
     }
   ],
   "pedidos": [

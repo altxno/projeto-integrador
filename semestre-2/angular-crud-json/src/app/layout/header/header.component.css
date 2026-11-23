@@ -58,10 +58,15 @@
 }
 
 .user-avatar {
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
+  --mdc-icon-button-state-layer-size: 48px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 48px;
+  box-sizing: border-box;
   border-radius: 50%;
   background: var(--app-primary-soft);
   color: var(--app-primary);
@@ -69,7 +74,19 @@
 }
 
 .user-avatar mat-icon {
-  font-size: 23px;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.user-avatar:hover {
+  background: #e8d7f7;
+}
+
+.user-avatar:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
 }
 
 @media (max-width: 700px) {

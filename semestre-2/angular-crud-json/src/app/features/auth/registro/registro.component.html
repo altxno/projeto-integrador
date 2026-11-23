@@ -43,6 +43,9 @@
           <mat-error *ngIf="form.get('email')?.hasError('maxlength')">
             O e-mail pode ter no máximo 254 caracteres.
           </mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('emailEmUso')">
+            Já existe uma conta usando este e-mail.
+          </mat-error>
         </mat-form-field>
 
         <!-- Senha -->
