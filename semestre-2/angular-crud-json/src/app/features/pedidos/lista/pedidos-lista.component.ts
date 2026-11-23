@@ -43,6 +43,7 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./pedidos-lista.component.css']
 })
 export class PedidosListaComponent implements OnInit {
+  // Mantém os dados originais, os filtrados e os totais exibidos no painel.
   private readonly authService = inject(AuthService);
 
   colunas: string[] = ['id', 'titulo', 'cliente', 'tipoArte', 'valor', 'dataEntrega', 'status', 'acoes'];
@@ -70,6 +71,7 @@ export class PedidosListaComponent implements OnInit {
   }
 
   carregarPedidos(): void {
+    // A conta conectada define quais comissões a API devolve.
     const usuarioId = this.authService.usuarioLogado?.id;
     if (usuarioId == null) {
       this.carregando = false;
@@ -95,6 +97,7 @@ export class PedidosListaComponent implements OnInit {
   }
 
   calcularMetricas(): void {
+    // Calcula totais a partir da lista completa, antes de aplicar filtros da tela.
     this.totalPedidos = this.todosPedidos.length;
     this.totalPendentes = this.todosPedidos.filter(p => p.status === 'Pendente').length;
     this.totalEmAndamento = this.todosPedidos.filter(p => p.status === 'Em Andamento').length;
@@ -103,11 +106,13 @@ export class PedidosListaComponent implements OnInit {
   }
 
   filtrarPorStatus(status: 'TODOS' | StatusPedido): void {
+    // Guarda o status escolhido e refaz a combinação com o texto de busca.
     this.filtroStatus = status;
     this.aplicarFiltros();
   }
 
   aplicarFiltros(): void {
+    // Um pedido aparece se corresponder ao texto e também ao status selecionado.
     const termo = this.filtroTexto.trim().toLowerCase();
     this.pedidosFiltrados = this.todosPedidos.filter(p => {
       const bateTexto = !termo ||
@@ -121,6 +126,7 @@ export class PedidosListaComponent implements OnInit {
   }
 
   getStatusClass(status: StatusPedido): string {
+    // Escolhe a classe CSS que colore a etiqueta conforme o status.
     switch (status) {
       case 'Pendente': return 'status-pendente';
       case 'Em Andamento': return 'status-andamento';
@@ -131,6 +137,7 @@ export class PedidosListaComponent implements OnInit {
   }
 
   visualizar(pedido: Pedido): void {
+    // Abre uma janela somente de leitura com os dados do pedido escolhido.
     this.dialog.open(PedidoDetalheDialogComponent, {
       data: pedido,
       width: '560px',
@@ -139,6 +146,7 @@ export class PedidosListaComponent implements OnInit {
   }
 
   excluir(id: number | string, titulo: string): void {
+    // Só apaga após confirmação; a API recebe também o dono para limitar o registro.
     const usuarioId = this.authService.usuarioLogado?.id;
     if (usuarioId == null) return;
 

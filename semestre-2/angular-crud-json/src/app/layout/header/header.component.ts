@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { Usuario } from '../../core/models/usuario.model';
 
 export interface AppBreadcrumb {
+  // Textos recebidos do layout para montar a trilha de navegação.
   section: string;
   page: string;
 }
@@ -17,6 +18,7 @@ export interface AppBreadcrumb {
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  // Inputs são valores que o componente pai fornece ao componente de cabeçalho.
   @Input({ required: true }) breadcrumb!: AppBreadcrumb;
   @Input() usuario: Usuario | null = null;
 }

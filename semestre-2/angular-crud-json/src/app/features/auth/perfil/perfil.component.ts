@@ -12,9 +12,11 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Usuario } from '../../../core/models/usuario.model';
 
 function validarConfirmacaoSenha(control: AbstractControl): ValidationErrors | null {
+  // Obtém os dois controles do formulário para confirmar uma troca de senha.
   const senha = control.get('novaSenha')?.value;
   const confirmacao = control.get('confirmarSenha')?.value;
 
+  // Os dois campos vazios significam que a pessoa não quer trocar a senha.
   if (!senha && !confirmacao) {
     return null;
   }
@@ -49,6 +51,7 @@ export class PerfilComponent {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
+    // Cria o formulário com as mesmas regras de nome/e-mail e senha opcional.
     this.form = this.fb.group({
       nome: ['', [
         Validators.required,
@@ -67,10 +70,12 @@ export class PerfilComponent {
       return;
     }
 
+    // Mostra os dados existentes para que a pessoa edite apenas o que deseja.
     this.form.patchValue({ nome: usuario.nome, email: usuario.email });
   }
 
   salvar(): void {
+    // Confere limites de texto e validadores antes de continuar.
     if (!this.validarLimitesCampos() || this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -82,6 +87,7 @@ export class PerfilComponent {
       return;
     }
 
+    // Mantém os dados atuais, aplica as mudanças e só troca a senha se foi preenchida.
     const { nome, email, novaSenha } = this.form.getRawValue();
     const usuarioAtualizado: Usuario = {
       ...usuarioAtual,
@@ -90,6 +96,7 @@ export class PerfilComponent {
       senha: novaSenha || usuarioAtual.senha
     };
 
+    // Solicita ao serviço que confira o e-mail e grave as alterações.
     this.salvando = true;
     this.authService.atualizar(usuarioAtualizado).subscribe({
       next: (usuario) => {
@@ -101,6 +108,7 @@ export class PerfilComponent {
         this.salvando = false;
 
         if (erro.message === 'EMAIL_DUPLICADO') {
+          // Marca especificamente o campo e permite que o template explique o conflito.
           const controleEmail = this.form.get('email');
           controleEmail?.setErrors({ ...(controleEmail.errors ?? {}), emailEmUso: true });
           controleEmail?.markAsTouched();
@@ -113,6 +121,7 @@ export class PerfilComponent {
   }
 
   private validarLimitesCampos(): boolean {
+    // Regras repetidas aqui também são conferidas no envio, mesmo se o HTML for alterado.
     const limites: Record<string, { min: number; max: number; opcional?: boolean; apararEspacos?: boolean }> = {
       nome: { min: 3, max: 100, apararEspacos: true },
       email: { min: 5, max: 254, apararEspacos: true },
@@ -122,6 +131,7 @@ export class PerfilComponent {
     let valido = true;
 
     for (const [campo, limite] of Object.entries(limites)) {
+      // Percorre cada campo configurado e mede o texto, ignorando espaços externos quando pedido.
       const controle = this.form.get(campo);
       const valor = String(controle?.value ?? '');
       if (limite.opcional && !valor) continue;

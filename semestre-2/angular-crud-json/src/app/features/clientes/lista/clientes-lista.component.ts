@@ -36,6 +36,7 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./clientes-lista.component.css']
 })
 export class ClientesListaComponent implements OnInit {
+  // Lista completa da conta e cópia filtrada que a tabela mostra.
   private readonly authService = inject(AuthService);
 
   colunas: string[] = ['id', 'nome', 'cpf', 'email', 'telefone', 'editar', 'excluir'];
@@ -54,6 +55,7 @@ export class ClientesListaComponent implements OnInit {
   }
 
   carregarClientes(): void {
+    // A API recebe o ID da sessão para separar os registros por usuário.
     const usuarioId = this.authService.usuarioLogado?.id;
     if (usuarioId == null) {
       this.carregando = false;
@@ -78,6 +80,7 @@ export class ClientesListaComponent implements OnInit {
   }
 
   aplicarFiltro(): void {
+    // Busca sem diferenciar maiúsculas/minúsculas nos campos principais.
     const termo = this.filtroTexto.trim().toLowerCase();
     if (!termo) {
       this.clientesFiltrados = [...this.todosClientes];
@@ -91,6 +94,7 @@ export class ClientesListaComponent implements OnInit {
   }
 
   formatarCpf(cpf: string): string {
+    // A formatação serve apenas para exibir; os dados são guardados sem pontuação.
     if (!cpf) return '-';
     const nums = cpf.replace(/\D/g, '');
     if (nums.length === 11) {
@@ -100,6 +104,7 @@ export class ClientesListaComponent implements OnInit {
   }
 
   excluir(id: number | string, nome: string): void {
+    // Pede confirmação antes de apagar e sempre informa à API qual usuário é dono.
     const usuarioId = this.authService.usuarioLogado?.id;
     if (usuarioId == null) return;
 

@@ -12,5 +12,6 @@ import { RouterModule } from '@angular/router';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+  // Evento para o layout saber que a pessoa pediu para sair da conta.
   @Output() readonly logoutRequested = new EventEmitter<void>();
 }

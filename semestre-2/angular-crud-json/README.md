@@ -16,7 +16,8 @@ angular-crud-json/
 │   │   │   ├── guards/auth.guard.ts    # Bloqueia rotas internas sem sessão
 │   │   │   ├── models/                 # Formatos TypeScript dos dados
 │   │   │   ├── services/               # Chamadas HTTP para a API
-│   │   │   └── validators/              # Regra personalizada de CPF
+│   │   │   ├── utils/id.util.ts         # Gera próximo ID numérico sequencial
+│   │   │   └── validators/              # Validadores personalizados de CPF e telefone
 │   │   ├── features/
 │   │   │   ├── auth/                    # Login, registro e perfil
 │   │   │   ├── clientes/                # Lista e formulário de clientes
@@ -31,8 +32,7 @@ angular-crud-json/
 │   └── index.html                       # Página base carregada pelo navegador
 ├── angular.json / tsconfig*.json        # Configuração de build e TypeScript
 ├── package.json                         # Dependências e comandos npm
-├── README.md                            # Este mapa
-└── README.md                            # Mapa de apresentação
+└── README.md                            # Este mapa de apresentação
 ```
 
 Cada componente de tela costuma ter `.ts` (comportamento), `.html` (estrutura visual) e `.css` (estilo). Os arquivos `*.spec.ts` seriam testes automatizados; atualmente não há testes de componente no projeto.
@@ -45,7 +45,8 @@ Cada componente de tela costuma ter `.ts` (comportamento), `.html` (estrutura vi
 | `core/services` | Enviar `GET`, `POST`, `PUT` e `DELETE` à API |
 | `core/models` | Definir os campos de Cliente, Pedido e Usuário no TypeScript |
 | `core/guards` | Redirecionar para login se não houver usuário conectado |
-| `core/validators` | Validar o CPF no formulário Angular |
+| `core/utils/id.util.ts` | Calcular o próximo ID numérico sequencial de uma coleção |
+| `core/validators` | Validar CPF e telefone nos formulários Angular |
 | `layout` | Reaproveitar header, sidebar e área de conteúdo entre rotas |
 | `backend/db.json` | Guardar os dados da API local simulada |
 

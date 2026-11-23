@@ -49,6 +49,7 @@ export class ClientesFormComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
+    // Define os campos do cliente e suas validações usadas ao cadastrar e editar.
     this.form = this.fb.group({
       nome: ['', [
         Validators.required,
@@ -63,6 +64,7 @@ export class ClientesFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // A presença de :id na URL indica edição; sem ID, o formulário é de cadastro.
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.idCliente = id;
@@ -72,6 +74,7 @@ export class ClientesFormComponent implements OnInit {
   }
 
   carregarCliente(id: string): void {
+    // A conta conectada limita a busca aos clientes que pertencem a ela.
     const usuarioId = this.authService.usuarioLogado?.id;
     if (usuarioId == null) {
       this.router.navigate(['/login']);
@@ -100,6 +103,7 @@ export class ClientesFormComponent implements OnInit {
   }
 
   salvar(): void {
+    // Primeiro valida limites e regras locais; só depois consulta dados e salva.
     if (!this.validarLimitesCampos() || this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -112,8 +116,10 @@ export class ClientesFormComponent implements OnInit {
     }
 
     this.salvando = true;
+    // A checagem de CPF é por conta: outro usuário pode ter um cadastro igual.
     this.service.listar(usuarioId).subscribe({
       next: (clientes) => {
+        // Remove pontuação antes de comparar para tratar 123... e 123. ... como iguais.
         const cpf = String(this.form.get('cpf')?.value ?? '').replace(/\D/g, '');
         const cpfDuplicado = clientes.some(cliente =>
           String(cliente.cpf).replace(/\D/g, '') === cpf &&
@@ -145,6 +151,7 @@ export class ClientesFormComponent implements OnInit {
   }
 
   private validarLimitesCampos(): boolean {
+    // Reconfere os comprimentos antes do envio para não depender só do atributo maxlength.
     const limites: Record<string, { min: number; max: number; apararEspacos?: boolean }> = {
       nome: { min: 3, max: 60, apararEspacos: true },
       cpf: { min: 0, max: 14 },
@@ -154,6 +161,7 @@ export class ClientesFormComponent implements OnInit {
     let valido = true;
 
     for (const [campo, limite] of Object.entries(limites)) {
+      // Mede o valor e registra um erro Angular caso fique fora do intervalo definido.
       const controle = this.form.get(campo);
       const valor = String(controle?.value ?? '');
       const tamanho = limite.apararEspacos ? valor.trim().length : valor.length;
@@ -176,6 +184,7 @@ export class ClientesFormComponent implements OnInit {
   }
 
   private salvarCliente(usuarioId: string | number): void {
+    // Monta o objeto que será enviado à API e guarda o CPF somente com dígitos.
     const dadosForm = this.form.value;
     const clienteData: Cliente = {
       ...dadosForm,
@@ -184,6 +193,7 @@ export class ClientesFormComponent implements OnInit {
     };
 
     if (this.modoEdicao && this.idCliente) {
+      // Edição substitui o cliente existente; cadastro cria um novo registro.
       clienteData.id = this.idCliente;
       this.service.editar(clienteData, usuarioId).subscribe({
         next: () => {

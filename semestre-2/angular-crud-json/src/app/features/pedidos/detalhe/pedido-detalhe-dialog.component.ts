@@ -13,8 +13,10 @@ import { Pedido } from '../../../core/models/pedido.model';
   styleUrls: ['./pedido-detalhe-dialog.component.css']
 })
 export class PedidoDetalheDialogComponent {
+  // MAT_DIALOG_DATA injeta nesta janela o pedido escolhido na listagem.
   constructor(@Inject(MAT_DIALOG_DATA) public pedido: Pedido) {}
 
+  // Converte o valor para moeda brasileira para exibição, sem alterar o dado salvo.
   get valorFormatado(): string {
     const valor = Number(this.pedido.valor) || 0;
     return new Intl.NumberFormat('pt-BR', {

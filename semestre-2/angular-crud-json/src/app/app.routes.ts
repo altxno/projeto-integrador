@@ -9,7 +9,9 @@ import { ClientesFormComponent } from './features/clientes/form/clientes-form.co
 import { PerfilComponent } from './features/auth/perfil/perfil.component';
 import { authGuard } from './core/guards/auth.guard';
 
+// O Router escolhe qual componente mostrar conforme o endereço acessado.
 export const routes: Routes = [
+  // Login e registro são páginas públicas, fora do layout autenticado.
   { path: 'login', component: LoginComponent, title: 'Ateliê - Login' },
   { path: 'registro', component: RegistroComponent, title: 'Ateliê - Criar Conta' },
 
@@ -21,6 +23,7 @@ export const routes: Routes = [
   { path: 'excluir', redirectTo: 'clientes', pathMatch: 'full' },
 
   {
+    // As páginas abaixo compartilham header e sidebar e exigem sessão ativa.
     path: '',
     component: AppLayoutComponent,
     canActivate: [authGuard],

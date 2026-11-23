@@ -12,8 +12,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../core/services/auth.service';
 
 function confirmarSenhaValidator(control: AbstractControl): ValidationErrors | null {
+  // Lê os dois campos do grupo para comparar as senhas.
   const senha = control.get('senha')?.value;
   const confirmar = control.get('confirmarSenha')?.value;
+  // Retorna um erro no grupo quando as senhas foram preenchidas e não coincidem.
   if (senha && confirmar && senha !== confirmar) {
     return { senhasDivergentes: true };
   }
@@ -50,6 +52,8 @@ export class RegistroComponent {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
+    // Define campos e regras: tamanho, formato do e-mail, nome sem números e senha.
+    // A validação de confirmação compara dois campos do formulário como conjunto.
     this.form = this.fb.group({
       nome: ['', [
         Validators.required,
@@ -64,14 +68,17 @@ export class RegistroComponent {
   }
 
   registrar(): void {
+    // Impede o envio enquanto houver campos inválidos.
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
+    // Envia os dados validados ao AuthService para verificar e gravar a conta.
     this.carregando = true;
     const { nome, email, senha } = this.form.value;
 
+    // Trata sucesso e falha da requisição sem bloquear a tela.
     this.authService.registrar({ nome, email, senha }).subscribe({
       next: () => {
         this.carregando = false;
@@ -83,6 +90,7 @@ export class RegistroComponent {
         const controleEmail = this.form.get('email');
 
         if (erro.message === 'EMAIL_DUPLICADO' && controleEmail) {
+          // Devolve a duplicidade ao controle para o formulário mostrar a mensagem certa.
           controleEmail.setErrors({ ...(controleEmail.errors ?? {}), emailEmUso: true });
           controleEmail.markAsTouched();
           return;

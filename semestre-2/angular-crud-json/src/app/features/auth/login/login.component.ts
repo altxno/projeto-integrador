@@ -30,6 +30,7 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  // Estado do formulário e da tela (visibilidade da senha e indicador de espera).
   form: FormGroup;
   esconderSenha = true;
   carregando = false;
@@ -40,6 +41,7 @@ export class LoginComponent {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
+    // FormBuilder cria os campos e associa regras que o Angular valida.
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.minLength(5), Validators.email, Validators.maxLength(254)]],
       senha: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(128)]]
@@ -47,14 +49,17 @@ export class LoginComponent {
   }
 
   entrar(): void {
+    // Não consulta a API enquanto houver erro; marca campos para exibir mensagens.
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
+    // Enquanto a API responde, o template pode mostrar um indicador de carregamento.
     this.carregando = true;
     const { email, senha } = this.form.value;
 
+    // subscribe recebe o resultado assíncrono do serviço de autenticação.
     this.authService.login(email, senha).subscribe({
       next: (usuario) => {
         this.carregando = false;
@@ -71,6 +76,7 @@ export class LoginComponent {
   }
 
   preencherDemo(): void {
+    // Preenche os campos com a conta de demonstração para facilitar o acesso local.
     this.form.patchValue({
       email: 'artista@atelie.com',
       senha: '123456'

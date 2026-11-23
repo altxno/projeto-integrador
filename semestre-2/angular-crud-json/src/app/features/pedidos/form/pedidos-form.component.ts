@@ -17,6 +17,7 @@ import { Pedido, StatusPedido } from '../../../core/models/pedido.model';
 import { AuthService } from '../../../core/services/auth.service';
 
 function formatarDataLocal(data: Date): string {
+  // Monta AAAA-MM-DD usando a data local, sem conversão de fuso horário do navegador.
   const ano = data.getFullYear();
   const mes = String(data.getMonth() + 1).padStart(2, '0');
   const dia = String(data.getDate()).padStart(2, '0');
@@ -24,18 +25,21 @@ function formatarDataLocal(data: Date): string {
 }
 
 function obterDataMaxima(): string {
+  // Define o limite de entrega em cem anos a partir da data de hoje.
   const limite = new Date();
   limite.setFullYear(limite.getFullYear() + 100);
   return formatarDataLocal(limite);
 }
 
 function validarPrazoEntrega(control: AbstractControl): ValidationErrors | null {
+  // O campo pode estar vazio durante o preenchimento; required verifica isso separadamente.
   const dataEntrega = String(control.value ?? '');
 
   if (!dataEntrega) {
     return null;
   }
 
+  // Como as datas estão no padrão AAAA-MM-DD, comparar os textos ordena as datas corretamente.
   if (dataEntrega < formatarDataLocal(new Date())) {
     return { dataEntregaPassada: true };
   }
@@ -101,6 +105,7 @@ export class PedidosFormComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
+    // Associa cada campo às regras que o formulário precisa conferir.
     this.form = this.fb.group({
       titulo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       descricao: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(500)]],
@@ -113,6 +118,7 @@ export class PedidosFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Carrega clientes para o seletor; um ID na rota significa que vamos editar pedido.
     this.carregarClientes();
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -124,6 +130,7 @@ export class PedidosFormComponent implements OnInit {
   }
 
   carregarClientes(): void {
+    // Só carrega clientes da conta que está conectada.
     const usuarioId = this.authService.usuarioLogado?.id;
     if (usuarioId == null) {
       this.snackBar.open('Não foi possível identificar o usuário conectado.', 'Fechar', { duration: 3500 });
@@ -141,6 +148,7 @@ export class PedidosFormComponent implements OnInit {
   }
 
   carregarPedido(id: string): void {
+    // Busca o pedido dentro dos registros da conta atual antes de preencher o formulário.
     const usuarioId = this.authService.usuarioLogado?.id;
     if (usuarioId == null) {
       this.router.navigate(['/login']);
@@ -172,6 +180,7 @@ export class PedidosFormComponent implements OnInit {
   }
 
   salvar(): void {
+    // Valida conteúdo antes de montar o objeto enviado ao serviço.
     if (!this.validarLimitesCampos() || this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -186,6 +195,7 @@ export class PedidosFormComponent implements OnInit {
     this.salvando = true;
     const formVal = this.form.value;
 
+    // Encontra o cliente selecionado para guardar também o nome junto ao pedido.
     const clienteSelecionado = this.clientesDisponiveis.find(
       c => String(c.id) === String(formVal.clienteId)
     );
@@ -198,6 +208,7 @@ export class PedidosFormComponent implements OnInit {
     };
 
     if (this.modoEdicao && this.idPedido) {
+      // No modo edição atualiza o item existente; caso contrário cria outro.
       pedidoData.id = this.idPedido;
       this.pedidosService.editar(pedidoData, usuarioId).subscribe({
         next: () => {
@@ -226,6 +237,7 @@ export class PedidosFormComponent implements OnInit {
   }
 
   private validarLimitesCampos(): boolean {
+    // Regras conferidas no envio como proteção adicional às validações visuais do formulário.
     const limites: Record<string, { min: number; max: number }> = {
       titulo: { min: 3, max: 100 },
       descricao: { min: 5, max: 500 }
@@ -233,6 +245,7 @@ export class PedidosFormComponent implements OnInit {
     let valido = true;
 
     for (const [campo, limite] of Object.entries(limites)) {
+      // Marca o campo inválido e preserva outros erros que já existam nele.
       const controle = this.form.get(campo);
       const tamanho = String(controle?.value ?? '').length;
       const erros: ValidationErrors = { ...(controle?.errors ?? {}) };
