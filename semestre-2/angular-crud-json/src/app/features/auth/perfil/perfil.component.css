@@ -1,0 +1,50 @@
+.profile-wrapper {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.profile-card {
+  border-radius: 12px;
+}
+
+.profile-header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid var(--app-border);
+  margin-bottom: 20px;
+}
+
+.profile-header mat-icon {
+  color: var(--app-primary);
+}
+
+mat-card-content {
+  padding: 0 24px 24px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.password-hint {
+  margin: 4px 0 16px;
+  color: var(--app-muted);
+  font-size: 14px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 12px;
+}
+
+@media (max-width: 600px) {
+  .profile-header {
+    padding: 20px 16px 14px;
+  }
+
+  mat-card-content {
+    padding: 0 16px 20px;
+  }
+}

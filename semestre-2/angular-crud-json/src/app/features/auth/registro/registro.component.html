@@ -13,7 +13,7 @@
         <!-- Nome Completo -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nome Completo</mat-label>
-          <input matInput formControlName="nome" placeholder="Ex: Lucas Ferreira" />
+          <input matInput minlength="3" maxlength="100" formControlName="nome" placeholder="Ex: Lucas Ferreira" />
           <mat-icon matPrefix>badge</mat-icon>
           <mat-error *ngIf="form.get('nome')?.hasError('required')">
             O nome é obrigatório.
@@ -21,18 +21,27 @@
           <mat-error *ngIf="form.get('nome')?.hasError('minlength')">
             O nome deve ter no mínimo 3 caracteres.
           </mat-error>
+          <mat-error *ngIf="form.get('nome')?.hasError('maxlength')">
+            O nome pode ter no máximo 100 caracteres.
+          </mat-error>
         </mat-form-field>
 
         <!-- E-mail -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>E-mail</mat-label>
-          <input matInput type="email" formControlName="email" placeholder="seu@email.com" />
+          <input matInput type="email" minlength="5" maxlength="254" formControlName="email" placeholder="seu@email.com" />
           <mat-icon matPrefix>email</mat-icon>
           <mat-error *ngIf="form.get('email')?.hasError('required')">
             O e-mail é obrigatório.
           </mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('minlength')">
+            O e-mail deve ter pelo menos 5 caracteres.
+          </mat-error>
           <mat-error *ngIf="form.get('email')?.hasError('email')">
             Informe um e-mail válido.
+          </mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('maxlength')">
+            O e-mail pode ter no máximo 254 caracteres.
           </mat-error>
         </mat-form-field>
 
@@ -42,6 +51,8 @@
           <input
             matInput
             [type]="esconderSenha ? 'password' : 'text'"
+            minlength="6"
+            maxlength="128"
             formControlName="senha"
             placeholder="Mínimo 6 caracteres"
           />
@@ -60,6 +71,9 @@
           <mat-error *ngIf="form.get('senha')?.hasError('minlength')">
             A senha deve conter pelo menos 6 caracteres.
           </mat-error>
+          <mat-error *ngIf="form.get('senha')?.hasError('maxlength')">
+            A senha pode ter no máximo 128 caracteres.
+          </mat-error>
         </mat-form-field>
 
         <!-- Confirmar Senha -->
@@ -68,6 +82,7 @@
           <input
             matInput
             [type]="esconderConfirmacao ? 'password' : 'text'"
+            maxlength="128"
             formControlName="confirmarSenha"
             placeholder="Repita a senha"
           />
@@ -85,6 +100,9 @@
           </mat-error>
           <mat-error *ngIf="form.hasError('senhasDivergentes') && form.get('confirmarSenha')?.touched">
             As senhas não coincidem.
+          </mat-error>
+          <mat-error *ngIf="form.get('confirmarSenha')?.hasError('maxlength')">
+            A confirmação pode ter no máximo 128 caracteres.
           </mat-error>
         </mat-form-field>
 

@@ -1,156 +1,116 @@
-# Ateliê — Gestão de Pedidos e Clientes
+# Ateliê — mapa rápido para apresentação
 
-Aplicação web para artistas independentes organizarem clientes e pedidos de trabalhos artísticos. O sistema oferece operações CRUD para clientes e pedidos, separa os registros por conta, e inclui autenticação demonstrativa, busca, filtros por status e visualização dos detalhes de um pedido.
+## O que é
 
-> Este projeto é acadêmico e utiliza o JSON Server como API REST simulada. A autenticação e o armazenamento de senhas não são apropriados para produção.
+Sistema web acadêmico para artistas organizarem clientes e comissões: cadastrar, listar, editar, excluir e consultar dados. A interface é Angular 19; a API de demonstração é JSON Server e salva em `backend/db.json`.
 
-## Tecnologias
-
-- Angular 19.2 e TypeScript
-- Angular Material e Angular CDK
-- JSON Server para simular a API REST
-- RxJS para lidar com respostas assíncronas HTTP
-- Node.js e npm para executar o ambiente de desenvolvimento
-
-## Requisitos
-
-- Node.js compatível com Angular 19.2: `^18.19.1`, `^20.11.1` ou `^22.0.0`.
-- npm, instalado junto com o Node.js.
-- Acesso a um terminal para executar a aplicação e a API em processos separados.
-
-Consulte a [tabela oficial de compatibilidade do Angular](https://angular.dev/reference/versions) para detalhes sobre Node.js, TypeScript e RxJS.
-
-## Instalação e execução
-
-Na pasta `semestre-2/angular-crud-json`, instale as dependências:
-
-```bash
-npm install
-```
-
-Inicie a API em um terminal:
-
-```bash
-npm run server
-```
-
-O JSON Server lê `backend/db.json` e disponibiliza os recursos na porta `3000`.
-
-Em outro terminal, na mesma pasta, inicie o Angular:
-
-```bash
-npm start
-```
-
-A aplicação fica disponível em `http://localhost:4200`.
-
-### Conta de demonstração
-
-- E-mail: `artista@atelie.com`
-- Senha: `123456`
-
-A tela de login possui um botão que preenche esses dados automaticamente.
-
-## Funcionalidades
-
-### Clientes
-
-- Listagem com busca por nome, e-mail ou CPF.
-- Os clientes são associados à conta do artista conectado.
-- Cadastro, edição e exclusão.
-- Validação de campos obrigatórios, formato de e-mail, limites de caracteres e dígitos verificadores do CPF.
-- Exibição do CPF com formatação; o valor enviado à API é normalizado para conter somente números.
-
-### Pedidos e comissões
-
-- Listagem com busca por título, cliente ou categoria.
-- Os pedidos são associados à conta do artista conectado.
-- Indicadores de quantidade total, pendências, pedidos em andamento, pedidos concluídos e soma dos valores registrados.
-- Filtro de status pela lista e pelos indicadores.
-- Cadastro e edição com título, descrição, cliente, categoria, valor, prazo e status.
-- Ações para visualizar os detalhes em um diálogo somente leitura, editar e excluir.
-
-### Acesso
-
-- Login consultando usuários registrados na API simulada.
-- Persistência do usuário atual no `localStorage` para manter a sessão no navegador.
-- Proteção das rotas internas por um guard de autenticação.
-- Logout pela navegação lateral.
-
-**Estado da criação de usuário:** a rota `/registro`, a tela e o link no login ainda estão ativos no código. Embora a decisão de produto seja manter a criação de usuário desligada por enquanto, essa alteração ainda precisa ser aplicada.
-
-## Organização do código
+## Mapa do projeto
 
 ```text
-src/app/
-├── core/
-│   ├── guards/       # Proteção de rotas
-│   ├── models/       # Formatos de Cliente, Pedido e Usuário
-│   ├── services/     # Comunicação HTTP e autenticação
-│   └── validators/   # Validação de CPF
-├── features/
-│   ├── auth/         # Login e registro
-│   ├── clientes/     # Lista e formulário de clientes
-│   └── pedidos/      # Lista, formulário e detalhes do pedido
-└── layout/
-    ├── app-layout/   # Estrutura compartilhada das telas internas
-    ├── header/       # Caminho da página e usuário conectado
-    └── sidebar/      # Navegação e ação de logout
-
-backend/
-└── db.json           # Dados locais usados pelo JSON Server
+angular-crud-json/
+├── backend/
+│   └── db.json                         # Dados locais: usuarios, clientes, pedidos
+├── src/
+│   ├── app/
+│   │   ├── core/
+│   │   │   ├── guards/auth.guard.ts    # Bloqueia rotas internas sem sessão
+│   │   │   ├── models/                 # Formatos TypeScript dos dados
+│   │   │   ├── services/               # Chamadas HTTP para a API
+│   │   │   └── validators/              # Regra personalizada de CPF
+│   │   ├── features/
+│   │   │   ├── auth/                    # Login, registro e perfil
+│   │   │   ├── clientes/                # Lista e formulário de clientes
+│   │   │   └── pedidos/                 # Lista, formulário e detalhes
+│   │   ├── layout/
+│   │   │   ├── app-layout/              # Estrutura comum + área da rota atual
+│   │   │   ├── header/                  # Caminho da página e usuário atual
+│   │   │   └── sidebar/                 # Navegação e logout
+│   │   ├── app.routes.ts                # URLs e componentes correspondentes
+│   │   └── app.config.ts                # Configuração global da aplicação
+│   ├── styles.css                       # Estilos e paleta globais
+│   └── index.html                       # Página base carregada pelo navegador
+├── angular.json / tsconfig*.json        # Configuração de build e TypeScript
+├── package.json                         # Dependências e comandos npm
+├── README.md                            # Este mapa
+└── README.md                            # Mapa de apresentação
 ```
 
-Os componentes são standalone e importam os módulos Angular e Material de que precisam. As páginas cuidam da interface, dos formulários e das interações; os serviços encapsulam as chamadas HTTP; os modelos descrevem os objetos trafegados entre frontend e API.
+Cada componente de tela costuma ter `.ts` (comportamento), `.html` (estrutura visual) e `.css` (estilo). Os arquivos `*.spec.ts` seriam testes automatizados; atualmente não há testes de componente no projeto.
+
+## Responsabilidades principais
+
+| Parte | Responsabilidade |
+|---|---|
+| `features` | Telas e interações de login, clientes e pedidos/comissões |
+| `core/services` | Enviar `GET`, `POST`, `PUT` e `DELETE` à API |
+| `core/models` | Definir os campos de Cliente, Pedido e Usuário no TypeScript |
+| `core/guards` | Redirecionar para login se não houver usuário conectado |
+| `core/validators` | Validar o CPF no formulário Angular |
+| `layout` | Reaproveitar header, sidebar e área de conteúdo entre rotas |
+| `backend/db.json` | Guardar os dados da API local simulada |
+
+## Fluxo dos dados
+
+```text
+Tela HTML → componente TypeScript → serviço Angular (HttpClient)
+         → HTTP/JSON → JSON Server → backend/db.json
+         ← resposta ← Observable/subscribe ←
+```
+
+O componente controla a tela e chama um serviço; o serviço conversa com a API. A tela não lê `db.json` diretamente. JSON é o formato dos dados enviados e recebidos.
+
+## CPF: de onde vem e como funciona
+
+- O campo está no template `features/clientes/form/clientes-form.component.html` como `formControlName="cpf"`.
+- O formulário reativo é criado no TypeScript com `FormBuilder` e `fb.group(...)` em `clientes-form.component.ts`.
+- O controle `cpf` recebe `[Validators.required, validarCpf]`; o import de `validarCpf` aponta para `core/validators/cpf.validator.ts`.
+- O Angular executa esses validadores enquanto o valor do campo muda. `Validators.required` trata vazio; `validarCpf` verifica o formato e os dígitos.
+- `validarCpf` limpa caracteres que não são números, exige 11 dígitos, rejeita números repetidos e calcula os dois dígitos verificadores com somas ponderadas e módulo 11.
+- `null` significa “sem erro”; `{ cpfInvalido: true }` marca erro. O template usa `hasError('cpfInvalido')` para mostrar a mensagem.
+- Ao salvar, o componente confere `form.invalid`; se inválido, não envia e marca os campos como tocados para exibir os erros. O CPF é enviado sem pontuação.
+- Essa validação é só no frontend: ajuda quem preenche, mas pode ser contornada. O JSON Server não valida o CPF nem fornece regras de segurança.
+
+## Funcionalidades e dados
+
+- **Clientes:** nome, CPF, e-mail e telefone; busca, cadastro, edição e exclusão.
+- **Pedidos/comissões:** título, descrição, cliente, categoria artística, valor, prazo e status; busca, filtro, cadastro, edição, consulta em diálogo e exclusão.
+- Cada cliente e pedido guarda `usuarioId`; pedidos também guardam `clienteId` e `clienteNome`.
+- As telas filtram os registros pelo usuário conectado. Com JSON Server, isso organiza a demonstração, mas não é autorização segura no servidor.
+- Login compara e-mail/senha consultando `/usuarios` e mantém a sessão no `localStorage`. As senhas do `db.json` estão em texto simples: não usar com dados reais.
+- A bolinha de perfil abre `/perfil`, onde é possível alterar nome, e-mail e, opcionalmente, senha. O sistema rejeita e-mail já usado por outra conta e mantém a sessão atualizada.
+- A tela/rota de registro ainda consta no código (`/registro`). A decisão de desativar cadastro de usuário não está aplicada nesta cópia.
+- O cartão “Faturamento Total” soma valores dos pedidos; não significa que foram pagos.
 
 ## Rotas principais
 
-| Rota | Finalidade |
+| URL | Tela |
 |---|---|
-| `/login` | Acesso ao sistema |
-| `/pedidos` | Lista de pedidos e comissões |
-| `/pedidos/novo` | Cadastro de pedido |
-| `/pedidos/editar/:id` | Edição de pedido existente |
-| `/clientes` | Lista de clientes |
-| `/clientes/novo` | Cadastro de cliente |
-| `/clientes/editar/:id` | Edição de cliente existente |
-| `/registro` | Criação de usuário (atualmente ativa no código) |
+| `/login` | Entrar |
+| `/pedidos` | Listar e filtrar comissões |
+| `/pedidos/novo` | Criar comissão |
+| `/pedidos/editar/:id` | Editar comissão |
+| `/clientes` | Listar e pesquisar clientes |
+| `/clientes/novo` | Cadastrar cliente |
+| `/clientes/editar/:id` | Editar cliente |
+| `/perfil` | Editar nome, e-mail e senha da conta atual |
+| `/registro` | Criar usuário (rota ainda ativa) |
 
-As páginas de pedidos e clientes são filhas do `AppLayout`, protegidas pelo `authGuard`. O layout mantém a sidebar e o header enquanto o conteúdo da rota muda.
+As rotas ficam em `src/app/app.routes.ts`. Clientes e pedidos usam o `AppLayout`; o `authGuard` protege a área interna.
 
-## API simulada
+## Requisitos e como executar
 
-O JSON Server converte as coleções de `backend/db.json` em endpoints REST na base `http://localhost:3000`:
+- Node.js compatível com Angular 19.2: `^18.19.1`, `^20.11.1` ou `^22.0.0`; npm.
+- Na pasta do projeto, execute `npm install` uma vez.
+- Terminal 1: `npm run server` (JSON Server em `http://localhost:3000`).
+- Terminal 2: `npm start` (Angular em `http://localhost:4200`).
+- Conta demonstrativa: `artista@atelie.com` / `123456`.
 
-| Recurso | Endpoint base |
-|---|---|
-| Usuários | `/usuarios` |
-| Clientes | `/clientes` |
-| Pedidos | `/pedidos` |
+Comandos: `npm run build` compila; `npm test -- --watch=false` tenta rodar testes, mas não há arquivos de teste atualmente.
 
-As operações usam `GET` para consultar, `POST` para criar, `PUT` para substituir/atualizar e `DELETE` para excluir. Os serviços correspondentes são `AuthService`, `ClientesService` e `PedidosService`.
+## Frase curta para explicar a arquitetura
 
-O pedido guarda `clienteId` e também `clienteNome`. O ID mantém a referência ao cliente; o nome é armazenado junto ao pedido para facilitar sua apresentação na lista.
+> “A interface é dividida por funcionalidades. Os componentes cuidam das telas e formulários; os serviços Angular centralizam as chamadas HTTP; o JSON Server oferece uma API REST de demonstração e persiste os dados em `db.json`.”
 
-Clientes e pedidos também guardam `usuarioId`, identificando a conta proprietária. As listas e buscas por ID consultam os dados com esse identificador; ao criar ou editar, o frontend inclui o ID do usuário conectado.
+## Limites importantes
 
-## Scripts disponíveis
-
-| Comando | Descrição |
-|---|---|
-| `npm start` | Inicia o servidor Angular de desenvolvimento |
-| `npm run server` | Inicia o JSON Server na porta 3000 |
-| `npm run build` | Compila a aplicação para distribuição |
-| `npm test -- --watch=false` | Executa os testes unitários uma vez |
-
-Atualmente não há arquivos `*.spec.ts` no projeto; por isso, o comando de testes informa que não encontrou entradas de teste. A compilação com `npm run build` foi executada com sucesso durante a preparação desta documentação.
-
-## Limitações conhecidas
-
-- O JSON Server é um armazenamento local de demonstração, sem banco de dados de produção.
-- A senha dos usuários fica em texto simples no `db.json`; não há autenticação ou autorização real no servidor.
-- O login compara as credenciais no frontend e usa o `localStorage` para persistir o estado de sessão.
-- O isolamento por `usuarioId` é aplicado nas consultas e nas telas Angular. Como o JSON Server não tem regras de autorização, isso não impede alguém de chamar diretamente os endpoints de outra conta.
-- A validação de CPF verifica os dígitos verificadores localmente, mas não confirma a existência do documento.
-- O indicador chamado “Faturamento Total” soma os valores de todos os pedidos cadastrados, sem representar pagamentos recebidos.
-- O README de semestre contém requisitos e informações gerais do projeto acadêmico; este arquivo documenta especificamente a aplicação Angular nesta pasta.
+É um protótipo acadêmico. Não há backend próprio, banco de dados de produção, hash de senha ou autorização real. O filtro por `usuarioId`, o login no frontend e o `localStorage` não protegem os dados contra chamadas diretas à API.

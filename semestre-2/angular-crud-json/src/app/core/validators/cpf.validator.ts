@@ -3,16 +3,20 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 // Função validadora personalizada para um campo de formulário do Angular.
 // O Angular passa o controle do campo e espera null (sem erro) ou um objeto de erro.
 export function validarCpf(control: AbstractControl): ValidationErrors | null {
-  // Lê o valor digitado, converte para texto e remove tudo que não for número.
-  // \D na expressão regular significa "qualquer caractere que não seja um dígito".
-  // O g faz replace substituir todas as ocorrências, não apenas a primeira.
-  const cpf = String(control.value ?? '').replace(/\D/g, '');
+  // Aceita somente os 11 dígitos ou o formato 000.000.000-00.
+  const valor = String(control.value ?? '').trim();
 
   // Campo vazio não é responsabilidade deste validador; Validators.required verifica isso.
   // null informa ao Angular que esta função não encontrou erro de CPF.
-  if (!cpf) {
+  if (!valor) {
     return null;
   }
+
+  if (!/^(\d{11}|\d{3}\.\d{3}\.\d{3}-\d{2})$/.test(valor)) {
+    return { cpfInvalido: true };
+  }
+
+  const cpf = valor.replace(/\D/g, '');
 
   // Exige 11 dígitos e rejeita sequências repetidas, como 11111111111.
   // Na regex: ^ marca o início, (\d) captura um dígito, \1 repete o capturado,

@@ -34,6 +34,7 @@ export class AppLayoutComponent {
     if (path.startsWith('/clientes/editar/')) return { section: 'Clientes', page: 'Editar cliente' };
     if (path === '/pedidos/novo') return { section: 'Pedidos', page: 'Cadastrar pedido' };
     if (path.startsWith('/pedidos/editar/')) return { section: 'Pedidos', page: 'Editar pedido' };
+    if (path === '/perfil') return { section: 'Perfil', page: 'Editar informações' };
 
     return { section: 'Pedidos', page: 'Lista de pedidos' };
   }

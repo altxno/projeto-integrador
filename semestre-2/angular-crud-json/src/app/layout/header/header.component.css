@@ -65,6 +65,7 @@
   border-radius: 50%;
   background: var(--app-primary-soft);
   color: var(--app-primary);
+  cursor: pointer;
 }
 
 .user-avatar mat-icon {

@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 import { Usuario } from '../../core/models/usuario.model';
 
 export interface AppBreadcrumb {
@@ -10,7 +12,7 @@ export interface AppBreadcrumb {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MatIconModule, MatButtonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })

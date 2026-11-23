@@ -6,6 +6,7 @@ import { PedidosListaComponent } from './features/pedidos/lista/pedidos-lista.co
 import { PedidosFormComponent } from './features/pedidos/form/pedidos-form.component';
 import { ClientesListaComponent } from './features/clientes/lista/clientes-lista.component';
 import { ClientesFormComponent } from './features/clientes/form/clientes-form.component';
+import { PerfilComponent } from './features/auth/perfil/perfil.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -32,6 +33,7 @@ export const routes: Routes = [
       { path: 'clientes', component: ClientesListaComponent, title: 'Ateliê - Clientes' },
       { path: 'clientes/novo', component: ClientesFormComponent, title: 'Ateliê - Novo Cliente' },
       { path: 'clientes/editar/:id', component: ClientesFormComponent, title: 'Ateliê - Editar Cliente' },
+      { path: 'perfil', component: PerfilComponent, title: 'Ateliê - Meu Perfil' },
       { path: '**', redirectTo: '' }
     ]
   }

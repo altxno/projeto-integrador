@@ -17,7 +17,7 @@
         <!-- Título -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Título / Nome da Obra</mat-label>
-          <input matInput formControlName="titulo" placeholder="Ex: Ilustração Digital de Guerreira Élfica" />
+          <input matInput minlength="3" maxlength="100" formControlName="titulo" placeholder="Ex: Ilustração Digital de Guerreira Élfica" />
           <mat-icon matPrefix>brush</mat-icon>
           <mat-error *ngIf="form.get('titulo')?.hasError('required')">
             O título da obra é obrigatório.
@@ -35,6 +35,8 @@
           <mat-label>Descrição e Detalhes da Arte</mat-label>
           <textarea
             matInput
+            minlength="5"
+            maxlength="500"
             formControlName="descricao"
             rows="3"
             placeholder="Descreva detalhes como iluminação, estilo, referências e paleta de cores..."
@@ -82,7 +84,7 @@
           <!-- Valor (R$) -->
           <mat-form-field appearance="outline" class="form-third">
             <mat-label>Valor Acordado (R$)</mat-label>
-            <input matInput type="number" formControlName="valor" placeholder="Ex: 350" />
+            <input matInput type="number" min="1" max="999999999.99" step="0.01" formControlName="valor" placeholder="Ex: 350" />
             <mat-icon matPrefix>attach_money</mat-icon>
             <mat-error *ngIf="form.get('valor')?.hasError('required')">
               O valor é obrigatório.
@@ -90,15 +92,25 @@
             <mat-error *ngIf="form.get('valor')?.hasError('min')">
               O valor deve ser maior que zero.
             </mat-error>
+            <mat-error *ngIf="form.get('valor')?.hasError('max')">
+              O valor não pode passar de R$ 999.999.999,99.
+            </mat-error>
           </mat-form-field>
 
           <!-- Prazo de Entrega -->
           <mat-form-field appearance="outline" class="form-third">
             <mat-label>Prazo de Entrega</mat-label>
-            <input matInput type="date" formControlName="dataEntrega" />
+            <input matInput type="date" [min]="dataMinima" [max]="dataMaxima" formControlName="dataEntrega" />
             <mat-icon matPrefix>event</mat-icon>
+            <mat-hint>Escolha uma data entre hoje e os próximos 100 anos.</mat-hint>
             <mat-error *ngIf="form.get('dataEntrega')?.hasError('required')">
               A data de entrega é obrigatória.
+            </mat-error>
+            <mat-error *ngIf="form.get('dataEntrega')?.hasError('dataEntregaPassada')">
+              A data de entrega não pode ser anterior a hoje.
+            </mat-error>
+            <mat-error *ngIf="form.get('dataEntrega')?.hasError('dataEntregaMuitoDistante')">
+              A data de entrega não pode passar de 100 anos a partir de hoje.
             </mat-error>
           </mat-form-field>
 

@@ -10,6 +10,8 @@
       <span class="user-name">{{ usuario?.nome || 'Usuário' }}</span>
       <span class="user-email">{{ usuario?.email }}</span>
     </div>
-    <span class="user-avatar"><mat-icon>account_circle</mat-icon></span>
+    <button mat-icon-button class="user-avatar" routerLink="/perfil" aria-label="Editar perfil">
+      <mat-icon>account_circle</mat-icon>
+    </button>
   </div>
 </header>

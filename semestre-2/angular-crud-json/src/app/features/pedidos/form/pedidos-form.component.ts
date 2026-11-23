@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,6 +15,37 @@ import { ClientesService } from '../../../core/services/clientes.service';
 import { Cliente } from '../../../core/models/cliente.model';
 import { Pedido, StatusPedido } from '../../../core/models/pedido.model';
 import { AuthService } from '../../../core/services/auth.service';
+
+function formatarDataLocal(data: Date): string {
+  const ano = data.getFullYear();
+  const mes = String(data.getMonth() + 1).padStart(2, '0');
+  const dia = String(data.getDate()).padStart(2, '0');
+  return `${ano}-${mes}-${dia}`;
+}
+
+function obterDataMaxima(): string {
+  const limite = new Date();
+  limite.setFullYear(limite.getFullYear() + 100);
+  return formatarDataLocal(limite);
+}
+
+function validarPrazoEntrega(control: AbstractControl): ValidationErrors | null {
+  const dataEntrega = String(control.value ?? '');
+
+  if (!dataEntrega) {
+    return null;
+  }
+
+  if (dataEntrega < formatarDataLocal(new Date())) {
+    return { dataEntregaPassada: true };
+  }
+
+  if (dataEntrega > obterDataMaxima()) {
+    return { dataEntregaMuitoDistante: true };
+  }
+
+  return null;
+}
 
 @Component({
   selector: 'app-pedidos-form',
@@ -44,6 +75,9 @@ export class PedidosFormComponent implements OnInit {
   carregando: boolean = false;
   salvando: boolean = false;
 
+  readonly dataMinima = formatarDataLocal(new Date());
+  readonly dataMaxima = obterDataMaxima();
+
   clientesDisponiveis: Cliente[] = [];
 
   categoriasArte: string[] = [
@@ -72,8 +106,8 @@ export class PedidosFormComponent implements OnInit {
       descricao: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(500)]],
       clienteId: ['', [Validators.required]],
       tipoArte: ['Ilustração Digital', [Validators.required]],
-      valor: [0, [Validators.required, Validators.min(1)]],
-      dataEntrega: ['', [Validators.required]],
+      valor: [0, [Validators.required, Validators.min(1), Validators.max(999999999.99)]],
+      dataEntrega: ['', [Validators.required, validarPrazoEntrega]],
       status: ['Pendente', [Validators.required]]
     });
   }

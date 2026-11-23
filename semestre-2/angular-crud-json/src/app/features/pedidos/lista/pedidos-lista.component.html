@@ -69,7 +69,7 @@
     <div class="filters">
       <mat-form-field appearance="outline" class="search-field">
         <mat-label>Buscar por arte, cliente ou categoria</mat-label>
-        <input matInput [(ngModel)]="filtroTexto" (input)="aplicarFiltros()" placeholder="Digite para filtrar..." />
+        <input matInput maxlength="100" [(ngModel)]="filtroTexto" (input)="aplicarFiltros()" placeholder="Digite para filtrar..." />
         <mat-icon matPrefix>search</mat-icon>
         <button mat-icon-button matSuffix *ngIf="filtroTexto" (click)="filtroTexto=''; aplicarFiltros()">
           <mat-icon>close</mat-icon>

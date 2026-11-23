@@ -1,7 +1,7 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, map, tap } from 'rxjs';
+import { Observable, BehaviorSubject, map, switchMap, tap } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 
 @Injectable({
@@ -48,24 +48,42 @@ export class AuthService {
         }
         return usuario;
       }),
-      tap(usuario => {
-        if (this.isBrowser) {
-          localStorage.setItem('usuario_logado', JSON.stringify(usuario));
-        }
-        this.usuarioAtualSubject.next(usuario);
-      })
+      tap(usuario => this.atualizarSessao(usuario))
     );
   }
 
   registrar(novoUsuario: Usuario): Observable<Usuario> {
     return this.http.post<Usuario>(this.API, novoUsuario).pipe(
-      tap(usuario => {
-        if (this.isBrowser) {
-          localStorage.setItem('usuario_logado', JSON.stringify(usuario));
-        }
-        this.usuarioAtualSubject.next(usuario);
-      })
+      tap(usuario => this.atualizarSessao(usuario))
     );
+  }
+
+  atualizar(usuarioAtualizado: Usuario): Observable<Usuario> {
+    const email = usuarioAtualizado.email.trim().toLowerCase();
+
+    return this.http.get<Usuario[]>(this.API).pipe(
+      map(usuarios => {
+        const emailEmUso = usuarios.some(usuario =>
+          String(usuario.id) !== String(usuarioAtualizado.id) &&
+          usuario.email.trim().toLowerCase() === email
+        );
+
+        if (emailEmUso) {
+          throw new Error('EMAIL_DUPLICADO');
+        }
+
+        return { ...usuarioAtualizado, email: usuarioAtualizado.email.trim() };
+      }),
+      switchMap(usuario => this.http.put<Usuario>(`${this.API}/${usuario.id}`, usuario)),
+      tap(usuario => this.atualizarSessao(usuario))
+    );
+  }
+
+  private atualizarSessao(usuario: Usuario): void {
+    if (this.isBrowser) {
+      localStorage.setItem('usuario_logado', JSON.stringify(usuario));
+    }
+    this.usuarioAtualSubject.next(usuario);
   }
 
   logout(): void {

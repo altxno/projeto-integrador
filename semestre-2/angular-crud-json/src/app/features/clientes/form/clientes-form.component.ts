@@ -12,6 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ClientesService } from '../../../core/services/clientes.service';
 import { Cliente } from '../../../core/models/cliente.model';
 import { validarCpf } from '../../../core/validators/cpf.validator';
+import { validarTelefone } from '../../../core/validators/telefone.validator';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -50,9 +51,9 @@ export class ClientesFormComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      cpf: ['', [Validators.required, validarCpf]],
-      email: ['', [Validators.required, Validators.email]],
-      telefone: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]]
+      cpf: ['', [Validators.required, Validators.maxLength(14), validarCpf]],
+      email: ['', [Validators.required, Validators.minLength(5), Validators.email, Validators.maxLength(254)]],
+      telefone: ['', [Validators.required, Validators.maxLength(20), validarTelefone]]
     });
   }
 
@@ -106,6 +107,34 @@ export class ClientesFormComponent implements OnInit {
     }
 
     this.salvando = true;
+    const cpf = String(this.form.get('cpf')?.value ?? '').replace(/\D/g, '');
+
+    this.service.listar(usuarioId).subscribe({
+      next: (clientes) => {
+        const cpfDuplicado = clientes.some(cliente =>
+          String(cliente.cpf).replace(/\D/g, '') === cpf &&
+          String(cliente.id) !== String(this.idCliente)
+        );
+
+        if (cpfDuplicado) {
+          const controleCpf = this.form.get('cpf');
+          const errosAtuais = controleCpf?.errors ?? {};
+          controleCpf?.setErrors({ ...errosAtuais, cpfDuplicado: true });
+          controleCpf?.markAsTouched();
+          this.salvando = false;
+          return;
+        }
+
+        this.salvarCliente(usuarioId);
+      },
+      error: () => {
+        this.salvando = false;
+        this.snackBar.open('Não foi possível verificar se o CPF já está cadastrado.', 'Fechar', { duration: 3500 });
+      }
+    });
+  }
+
+  private salvarCliente(usuarioId: string | number): void {
     const dadosForm = this.form.value;
     const clienteData: Cliente = {
       ...dadosForm,
