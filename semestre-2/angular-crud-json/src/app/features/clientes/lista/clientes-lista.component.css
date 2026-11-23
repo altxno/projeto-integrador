@@ -53,6 +53,14 @@ tr.mat-row:hover {
   width: 64px;
 }
 
+.actions-col button {
+  background: transparent;
+}
+
+.actions-col button:hover {
+  background: var(--app-primary-soft);
+}
+
 .loading-state {
   display: flex;
   flex-direction: column;

@@ -19,7 +19,7 @@
   font-size: 36px;
   width: 36px;
   height: 36px;
-  color: #3f51b5;
+  color: var(--app-primary);
 }
 
 .card-content {

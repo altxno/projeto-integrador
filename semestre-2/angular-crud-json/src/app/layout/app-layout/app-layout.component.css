@@ -1,6 +1,6 @@
 .sidenav-container {
   height: 100vh;
-  background: #f7f8fb;
+  background-color: var(--app-page);
 }
 
 .sidenav {

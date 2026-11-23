@@ -1,17 +1,48 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 :root {
-  --app-primary: #3f51b5;
-  --app-primary-soft: #eef0fb;
-  --app-primary-pale: #f7f8fd;
-  --app-ink: #30343d;
+  --app-primary: #882adf;
+  --app-primary-hover: #7422c8;
+  --app-primary-soft: #f1e6fb;
+  --app-primary-pale: #faf7fd;
+  --app-ink: #30243a;
+  --app-muted: #756b80;
+  --app-border: #e6dced;
+  --app-page: #faf9fc;
+}
+
+/* Keep Angular Material's primary controls on the same palette as the app. */
+.mat-mdc-raised-button.mat-primary {
+  --mdc-protected-button-container-color: var(--app-primary);
+}
+
+.mat-mdc-unelevated-button.mat-primary {
+  --mdc-filled-button-container-color: var(--app-primary);
+}
+
+.mat-mdc-button.mat-primary {
+  --mdc-text-button-label-text-color: var(--app-primary);
+  --mat-text-button-state-layer-color: var(--app-primary);
+  --mat-text-button-ripple-color: rgb(136 42 223 / 10%);
+}
+
+.mat-mdc-outlined-button.mat-primary {
+  --mdc-outlined-button-label-text-color: var(--app-primary);
+  --mat-outlined-button-state-layer-color: var(--app-primary);
+  --mat-outlined-button-ripple-color: rgb(136 42 223 / 10%);
+}
+
+html .mat-mdc-icon-button.mat-primary {
+  --mdc-icon-button-icon-color: var(--app-primary);
+  --mat-icon-button-state-layer-color: var(--app-primary);
+  --mat-icon-button-ripple-color: rgb(136 42 223 / 10%);
 }
 
 html, body {
   height: 100%;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #f7f8fb;
+  background-color: var(--app-page);
   color: var(--app-ink);
 }
 
@@ -23,4 +54,5 @@ html, body {
   max-width: 1100px;
   margin: 30px auto;
   padding: 0 16px;
+  background-color: var(--app-page);
 }

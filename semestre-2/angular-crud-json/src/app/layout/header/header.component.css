@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #e4e6ec;
-  background: #fff;
+  background-color: var(--app-primary);
   color: var(--app-ink);
 }
 
@@ -19,11 +19,11 @@
   align-items: center;
   gap: 10px;
   font-size: 15px;
-  color: #777d89;
+  color: white;
 }
 
 .breadcrumb strong {
-  color: var(--app-primary);
+  color: white;
   font-weight: 600;
 }
 
@@ -47,13 +47,13 @@
 }
 
 .user-name {
-  color: var(--app-ink);
+  color: white;
   font-size: 14px;
   font-weight: 600;
 }
 
 .user-email {
-  color: #818692;
+  color: white;
   font-size: 11px;
 }
 
