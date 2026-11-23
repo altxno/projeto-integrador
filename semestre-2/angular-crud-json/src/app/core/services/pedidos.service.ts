@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, switchMap } from 'rxjs';
 import { Pedido } from '../models/pedido.model';
+import { proximoIdNumerico } from '../utils/id.util';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,10 @@ export class PedidosService {
   }
 
   incluir(pedido: Pedido): Observable<Pedido> {
-    return this.http.post<Pedido>(this.API, pedido);
+    return this.http.get<Pedido[]>(this.API).pipe(
+      map(pedidos => ({ ...pedido, id: proximoIdNumerico(pedidos) })),
+      switchMap(pedidoComId => this.http.post<Pedido>(this.API, pedidoComId))
+    );
   }
 
   editar(pedido: Pedido, usuarioId: string | number): Observable<Pedido> {

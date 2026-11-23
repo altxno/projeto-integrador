@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, map, switchMap, tap } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
+import { proximoIdNumerico } from '../utils/id.util';
 
 @Injectable({
   providedIn: 'root'
@@ -55,8 +56,9 @@ export class AuthService {
   registrar(novoUsuario: Usuario): Observable<Usuario> {
     const usuario = { ...novoUsuario, email: novoUsuario.email.trim() };
 
-    return this.validarEmailDisponivel(usuario.email).pipe(
-      switchMap(() => this.http.post<Usuario>(this.API, usuario)),
+    return this.usuariosComEmailDisponivel(usuario.email).pipe(
+      map(usuarios => ({ ...usuario, id: proximoIdNumerico(usuarios) })),
+      switchMap(usuarioComId => this.http.post<Usuario>(this.API, usuarioComId)),
       tap(usuario => this.atualizarSessao(usuario))
     );
   }
@@ -64,13 +66,14 @@ export class AuthService {
   atualizar(usuarioAtualizado: Usuario): Observable<Usuario> {
     const usuario = { ...usuarioAtualizado, email: usuarioAtualizado.email.trim() };
 
-    return this.validarEmailDisponivel(usuario.email, usuario.id).pipe(
+    return this.usuariosComEmailDisponivel(usuario.email, usuario.id).pipe(
+      map(() => usuario),
       switchMap(() => this.http.put<Usuario>(`${this.API}/${usuario.id}`, usuario)),
       tap(usuario => this.atualizarSessao(usuario))
     );
   }
 
-  private validarEmailDisponivel(email: string, ignorarId?: string | number): Observable<void> {
+  private usuariosComEmailDisponivel(email: string, ignorarId?: string | number): Observable<Usuario[]> {
     const emailNormalizado = email.trim().toLowerCase();
 
     return this.http.get<Usuario[]>(this.API).pipe(
@@ -83,6 +86,8 @@ export class AuthService {
         if (emailEmUso) {
           throw new Error('EMAIL_DUPLICADO');
         }
+
+        return usuarios;
       })
     );
   }

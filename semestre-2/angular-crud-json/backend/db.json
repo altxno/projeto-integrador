@@ -17,6 +17,12 @@
       "nome": "altno hjdssssssssssssss",
       "email": "manow.lucky@gmail.com",
       "senha": "123456"
+    },
+    {
+      "id": "2",
+      "nome": "fdkjhgkjdfhgkfdjk  hgkjdfhgkjdfkjghkdfjg",
+      "email": "manow.luckya@gmail.com",
+      "senha": "1234567"
     }
   ],
   "clientes": [
@@ -83,6 +89,14 @@
       "email": "manow.lucky@gmail.com",
       "telefone": "11967066829",
       "usuarioId": "0fb6"
+    },
+    {
+      "id": "1089",
+      "nome": "gfld",
+      "cpf": "05650872236",
+      "email": "manow.lucky@gmail.com",
+      "telefone": "11967066829",
+      "usuarioId": "0fb6"
     }
   ],
   "pedidos": [
@@ -133,6 +147,18 @@
       "status": "Pendente",
       "usuarioId": "b010",
       "clienteNome": "aaaaa"
+    },
+    {
+      "titulo": "sdfa",
+      "descricao": "dasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaaaaaadasgfdaaaaaaaaaaaaaa",
+      "clienteId": "6a08",
+      "tipoArte": "Ilustração Digital",
+      "valor": 1.01,
+      "dataEntrega": "2027-06-28",
+      "status": "Pendente",
+      "usuarioId": "0fb6",
+      "clienteNome": "skdjhdkjsdkfhjdskhjdksjhfkjsdflkhjdskjfsdlkjfkjsdhfkljsdkgfg",
+      "id": "6320"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

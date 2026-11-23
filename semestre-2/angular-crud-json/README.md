@@ -75,6 +75,7 @@ O componente controla a tela e chama um serviço; o serviço conversa com a API.
 - **Clientes:** nome, CPF, e-mail e telefone; busca, cadastro, edição e exclusão.
 - **Pedidos/comissões:** título, descrição, cliente, categoria artística, valor, prazo e status; busca, filtro, cadastro, edição, consulta em diálogo e exclusão.
 - Cada cliente e pedido guarda `usuarioId`; pedidos também guardam `clienteId` e `clienteNome`.
+- Novos usuários, clientes e pedidos recebem um ID numérico sequencial por coleção, calculado como o maior ID numérico existente mais um. IDs antigos não numéricos são mantidos.
 - As telas filtram os registros pelo usuário conectado. Com JSON Server, isso organiza a demonstração, mas não é autorização segura no servidor.
 - Login compara e-mail/senha consultando `/usuarios` e mantém a sessão no `localStorage`. Criação e edição de conta rejeitam e-mails já usados (sem diferenciar maiúsculas/minúsculas). As senhas do `db.json` estão em texto simples: não usar com dados reais.
 - A bolinha de perfil abre `/perfil`, onde é possível alterar nome, e-mail e, opcionalmente, senha. O sistema rejeita e-mail já usado por outra conta e mantém a sessão atualizada.

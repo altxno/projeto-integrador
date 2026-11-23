@@ -51,7 +51,12 @@ export class RegistroComponent {
     private snackBar: MatSnackBar
   ) {
     this.form = this.fb.group({
-      nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      nome: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(100),
+        Validators.pattern(/^[\p{L}\p{M}][\p{L}\p{M} .’'-]*$/u)
+      ]],
       email: ['', [Validators.required, Validators.minLength(5), Validators.email, Validators.maxLength(254)]],
       senha: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(128)]],
       confirmarSenha: ['', [Validators.required, Validators.maxLength(128)]]

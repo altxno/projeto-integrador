@@ -14,6 +14,7 @@
           <mat-error *ngIf="form.get('nome')?.hasError('required')">O nome é obrigatório.</mat-error>
           <mat-error *ngIf="form.get('nome')?.hasError('minlength')">Informe pelo menos 3 caracteres.</mat-error>
           <mat-error *ngIf="form.get('nome')?.hasError('maxlength')">O nome pode ter até 100 caracteres.</mat-error>
+          <mat-error *ngIf="form.get('nome')?.hasError('pattern')">Use apenas letras, espaços, hífen, apóstrofo ou ponto.</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">

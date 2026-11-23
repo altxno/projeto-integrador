@@ -24,6 +24,9 @@
           <mat-error *ngIf="form.get('nome')?.hasError('maxlength')">
             O nome pode ter no máximo 100 caracteres.
           </mat-error>
+          <mat-error *ngIf="form.get('nome')?.hasError('pattern')">
+            Use apenas letras, espaços, hífen, apóstrofo ou ponto.
+          </mat-error>
         </mat-form-field>
 
         <!-- E-mail -->
